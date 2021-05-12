@@ -5,6 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>网页Shell模拟器</title>
+
+    <style>
+      body {
+        width: 100vw;
+        height: 100vh;
+        padding: 0;
+        margin: 0;
+      }
+    </style>
+    <script src="../dist/index.js"></script>
+    <script>
+      let webShellSimulator = new WebShellSimulator({ style: { width: '100%', height: '100%' } })
+
+      document.addEventListener('DOMContentLoaded', () => {
+        document.body.appendChild(webShellSimulator.dom)
+      })
+    </script>
   </head>
   <body> </body>
 </html>

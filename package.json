@@ -5,15 +5,22 @@
   "author": "WingsJ",
   "license": "GPL-3.0",
   "main": "dist/index.js",
+  "module": "dist/index.esm.js",
   "scripts": {
-    "dev": "tsc -w",
-    "build": "tsc"
+    "dev": "rollup -c -w",
+    "build": "rollup -c"
   },
   "repository": {
     "type": "git",
     "url": "https://gitee.com/wings-j/web-shell-simulator.git"
   },
   "devDependencies": {
-    "typescript": "^4.2.4"
-  }
+    "@babel/core": "7.11.6",
+    "@babel/preset-env": "7.11.5",
+    "@babel/preset-typescript": "^7.12.1",
+    "@rollup/plugin-babel": "^5.2.1",
+    "@rollup/plugin-node-resolve": "^10.0.0",
+    "rollup": "^2.47.0"
+  },
+  "dependencies": {}
 }
