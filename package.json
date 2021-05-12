@@ -1,0 +1,19 @@
+{
+  "name": "web-shell-simulator",
+  "version": "0.0.0",
+  "description": "网页Shell模拟器",
+  "author": "WingsJ",
+  "license": "GPL-3.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsc -w",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/wings-j/web-shell-simulator.git"
+  },
+  "devDependencies": {
+    "typescript": "^4.2.4"
+  }
+}
