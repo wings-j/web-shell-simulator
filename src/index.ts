@@ -4,8 +4,8 @@
 
 /* private */
 
-import Config, { preset } from './type/config'
-import MergeConfig from './util/merge-config'
+import Config, { preset as configPreset } from './core/config'
+import Style, { preset as stylePreset } from './core/style'
 
 /* public */
 
@@ -19,13 +19,14 @@ class WebShellSimulator {
    * @name 构造方法
    * @param config 选项
    */
-  constructor(config: Config = {}) {
-    let setting = MergeConfig(preset, config)
+  constructor(config: Config = {}, style: Style = {}) {
+    let conbimedConfig = Object.assign({}, configPreset, config)
+    let conbimedStyle = Object.assign({}, stylePreset, style)
 
     let dom = document.createElement('div')
     dom.style.overflowX = 'hidden'
     dom.style.boxSizing = 'border-box'
-    Object.assign(dom.style, setting.style)
+    Object.assign(dom.style, conbimedStyle)
 
     this.dom = dom
   }
