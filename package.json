@@ -1,6 +1,6 @@
 {
-  "name": "web-shell-simulator",
-  "version": "0.0.0",
+  "name": "@wings-j/web-shell-simulator",
+  "version": "0.0.1",
   "description": "网页Shell模拟器",
   "author": "WingsJ",
   "license": "GPL-3.0",

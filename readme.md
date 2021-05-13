@@ -26,3 +26,45 @@ shell.addLine('For more information about WingsJ, visit "http://wings-j.cn".', {
 shell.addLine('Hope you like it.', { prefix: false })
 shell.addLine('Please click the card on the left panel to check out web works.', { prefix: false, color: '#2266ff' })
 ```
+
+## API
+
+### 构造方法
+
+`new WebShellSimulator(config, style)`
+
+参数：
+
+- config：配置
+  - prefix：字符串。行前缀
+- style：样式。CSS 属性对象。
+
+### 添加文本行
+
+`WebShellSimulator.addLine(text, config)`
+
+参数：
+
+- text：字符串。文本
+- config：配置
+
+  - color：字符串。颜色
+  - prefix：布尔。显示前缀
+  - typing：布尔。打字动画
+  - typingPeriod：数字。打字动画周期
+
+返回 Line 实例
+
+### 添加空行
+
+`WebShellSimulator.addBlank()`
+
+返回 Blank 实例
+
+### 元素方法
+
+所有添加方法返回 Element 的子类。
+
+`Element.remove()`
+
+删除元素。
