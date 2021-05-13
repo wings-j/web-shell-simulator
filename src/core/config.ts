@@ -12,7 +12,7 @@ interface Config {
 }
 
 const preset: Config = {
-  prefix: '> '
+  prefix: ''
 }
 
 /* construct */
