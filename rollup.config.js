@@ -1,5 +1,6 @@
 import Babel from '@rollup/plugin-babel'
 import NodeResolve from '@rollup/plugin-node-resolve'
+import Typescript from 'rollup-plugin-typescript2'
 import PackageJson from './package.json'
 
 const extensions = ['.ts']
@@ -20,6 +21,7 @@ export default {
   external: Object.keys(PackageJson.dependencies || {}),
   plugins: [
     NodeResolve({ extensions, preferBuiltins: true }),
+    Typescript(),
     Babel({
       babelHelpers: 'bundled',
       exclude: ['node_modules/**'],
