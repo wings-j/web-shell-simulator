@@ -1,6 +1,6 @@
 {
   "name": "@wings-j/web-shell-simulator",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "网页Shell模拟器",
   "author": "WingsJ",
   "license": "GPL-3.0",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitee.com/wings-j/web-shell-simulator.git"
+    "url": "https://github.com/WingsJ0/web-shell-simulator.git"
   },
   "devDependencies": {
     "@babel/core": "7.11.6",
@@ -22,6 +22,5 @@
     "@rollup/plugin-babel": "^5.2.1",
     "@rollup/plugin-node-resolve": "^10.0.0",
     "rollup": "^2.47.0"
-  },
-  "dependencies": {}
+  }
 }
