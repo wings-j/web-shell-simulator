@@ -10,7 +10,7 @@ npm install --save-dev @wings-j/web-shell-simulator
 
 ## 使用
 
-复制`dist`目录下的`index.js`到代码中，使用 cjs 或 script 方式（注入类`WebShellSimulator`）引入。
+复制`dist`目录下的`index.js`到代码中，使用 esm/cjs 或 script 方式（注入类`WebShellSimulator`）引入。
 
 ```js
 import WebShellSimulator from '@wings-j/web-shell-simulator'
