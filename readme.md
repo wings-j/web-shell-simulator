@@ -2,6 +2,8 @@
 
 在网页中模拟 shell 的组件，原生 JS 实现。
 
+示例：[https://wingsj0.github.io/web-shell-simulator/](https://wingsj0.github.io/web-shell-simulator/)
+
 ## 安装
 
 ```sh
