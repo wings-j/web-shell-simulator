@@ -1,8 +1,8 @@
 /**
- * @name 样式
+ * 样式
  */
 /**
- * @name 样式
+ * 样式
  */
 interface Style {
     [index: string]: number | string | 'auto' | 'hidden' | undefined;

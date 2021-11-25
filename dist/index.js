@@ -1,12 +1,12 @@
 /**
- * @name 配置
+ * 配置
  */
 const preset$2 = {
     prefix: ''
 };
 
 /**
- * @name 样式
+ * 样式
  */
 const preset$1 = {
     width: undefined,
@@ -21,23 +21,23 @@ const preset$1 = {
 };
 
 /**
- * @name 元素
+ * 元素
  */
 /**
- * @name 元素
+ * 元素
  */
 class Element {
     context;
     dom;
     /**
-     * @name 元素
+     * 元素
      */
     constructor(context, dom) {
         this.context = context;
         this.dom = dom;
     }
     /**
-     * @name 删除
+     * 删除
      */
     remove() {
         this.dom.remove();
@@ -45,7 +45,7 @@ class Element {
 }
 
 /**
- * @name 行
+ * 行
  */
 const preset = {
     color: '',
@@ -54,7 +54,7 @@ const preset = {
     typingPeriod: 30
 };
 /**
- * @name 打字
+ * 打字
  * @param dom 元素
  * @param text 文本
  * @param period 单字周期
@@ -67,12 +67,12 @@ function type(dom, text, period = preset.typingPeriod) {
     }
 }
 /**
- * @name 行
+ * 行
  */
 class Line extends Element {
     config;
     /**
-     * @name 构造方法
+     * 构造方法
      * @param context 上下文
      * @param text 文本
      * @param config 配置
@@ -101,14 +101,14 @@ class Line extends Element {
 }
 
 /**
- * @name 空行
+ * 空行
  */
 /**
- * @name 空行
+ * 类
  */
 class Blank extends Element {
     /**
-     * @name 构造方法
+     * 构造方法
      * @param context 上下文
      */
     constructor(context) {
@@ -119,16 +119,16 @@ class Blank extends Element {
 }
 
 /**
- * @name index
+ * index
  */
 /**
- * @name 网页Shell模拟器
+ * 网页Shell模拟器
  */
 class WebShellSimulator {
     dom;
     config;
     /**
-     * @name 构造方法
+     * 构造方法
      * @param config 选项
      */
     constructor(config = {}, style = {}) {
@@ -143,7 +143,7 @@ class WebShellSimulator {
         return { dom: this.dom, config: this.config };
     }
     /**
-     * @name 滚动至底部
+     * 滚动至底部
      */
     scroll() {
         setTimeout(() => {
@@ -154,7 +154,7 @@ class WebShellSimulator {
         });
     }
     /**
-     * @name 添加空行
+     * 添加空行
      */
     addBlank() {
         let blank = new Blank(this.context);
@@ -162,7 +162,7 @@ class WebShellSimulator {
         this.scroll();
     }
     /**
-     * @name 添加行
+     * 添加行
      * @param text 文本
      * @param config 配置
      */

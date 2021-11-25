@@ -1,10 +1,10 @@
 /**
- * @name 行
+ * 行
  */
 import Context from '../core/context';
 import Element from '../core/element';
 /**
- * @name 配置
+ * 配置
  */
 interface LineConfig {
     color?: string;
@@ -13,12 +13,12 @@ interface LineConfig {
     typingPeriod?: number;
 }
 /**
- * @name 行
+ * 行
  */
 declare class Line extends Element {
     config: LineConfig;
     /**
-     * @name 构造方法
+     * 构造方法
      * @param context 上下文
      * @param text 文本
      * @param config 配置

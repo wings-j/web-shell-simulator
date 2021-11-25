@@ -1,8 +1,8 @@
 /**
- * @name 配置
+ * 配置
  */
 /**
- * @name 配置
+ * 配置
  */
 interface Config {
     prefix?: string;

@@ -1,18 +1,18 @@
 /**
- * @name 元素
+ * 元素
  */
 
 import Context from '../core/context'
 
 /**
- * @name 元素
+ * 元素
  */
 abstract class Element {
   context: Context
   dom: HTMLElement
 
   /**
-   * @name 元素
+   * 元素
    */
   constructor(context: Context, dom: HTMLElement) {
     this.context = context
@@ -20,7 +20,7 @@ abstract class Element {
   }
 
   /**
-   * @name 删除
+   * 删除
    */
   remove() {
     this.dom.remove()

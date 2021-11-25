@@ -1,5 +1,5 @@
 /**
- * @name 上下文
+ * 上下文
  */
 import Config from './config';
 interface Context {

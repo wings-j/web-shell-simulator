@@ -1,5 +1,5 @@
 /**
- * @name 行
+ * 行
  */
 
 import Context from '../core/context'
@@ -13,7 +13,7 @@ const preset = {
 }
 
 /**
- * @name 打字
+ * 打字
  * @param dom 元素
  * @param text 文本
  * @param period 单字周期
@@ -27,7 +27,7 @@ function type(dom: HTMLElement, text: string, period: number = preset.typingPeri
 }
 
 /**
- * @name 配置
+ * 配置
  */
 interface LineConfig {
   color?: string
@@ -37,13 +37,13 @@ interface LineConfig {
 }
 
 /**
- * @name 行
+ * 行
  */
 class Line extends Element {
   config: LineConfig
 
   /**
-   * @name 构造方法
+   * 构造方法
    * @param context 上下文
    * @param text 文本
    * @param config 配置
