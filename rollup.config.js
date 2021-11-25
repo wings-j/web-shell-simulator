@@ -10,15 +10,7 @@ export default [
   {
     input: 'src/index.ts',
     external: Object.keys(PackageJson.dependencies || {}),
-    plugins: [
-      RollupPluginDelete({
-        targets: Path.resolve(__dirname, 'dist/*'),
-        watch: true
-      }),
-      RollupPluginTypescript2(),
-      RollupPluginNodeResolve(),
-      RollupPluginCommonjs()
-    ],
+    plugins: [RollupPluginTypescript2(), RollupPluginNodeResolve(), RollupPluginCommonjs()],
     output: {
       file: PackageJson.module,
       sourcemap: true

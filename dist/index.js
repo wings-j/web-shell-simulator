@@ -23,7 +23,6 @@ const preset$1 = {
 /**
  * @name 元素
  */
-/* public */
 /**
  * @name 元素
  */
@@ -71,7 +70,6 @@ function type(dom, text, period = preset.typingPeriod) {
  * @name 行
  */
 class Line extends Element {
-    /* private */
     config;
     /**
      * @name 构造方法
@@ -105,7 +103,6 @@ class Line extends Element {
 /**
  * @name 空行
  */
-/* public */
 /**
  * @name 空行
  */
@@ -124,7 +121,6 @@ class Blank extends Element {
 /**
  * @name index
  */
-/* public */
 /**
  * @name 网页Shell模拟器
  */

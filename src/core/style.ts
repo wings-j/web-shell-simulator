@@ -2,8 +2,6 @@
  * @name 样式
  */
 
-/* public */
-
 /**
  * @name 样式
  */
@@ -32,8 +30,6 @@ const preset: Style = {
   fontFamily: '"Courier New", Courier, monospace',
   lineHeight: 1.5
 }
-
-/* construct */
 
 export default Style
 export { preset }

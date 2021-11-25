@@ -2,8 +2,6 @@
  * @name 行
  */
 
-/* private */
-
 import Context from '../core/context'
 import Element from '../core/element'
 
@@ -28,8 +26,6 @@ function type(dom: HTMLElement, text: string, period: number = preset.typingPeri
   }
 }
 
-/* public */
-
 /**
  * @name 配置
  */
@@ -44,8 +40,6 @@ interface LineConfig {
  * @name 行
  */
 class Line extends Element {
-  /* private */
-
   config: LineConfig
 
   /**
@@ -82,8 +76,6 @@ class Line extends Element {
     this.dom = dom
   }
 }
-
-/* construct */
 
 export default Line
 export { LineConfig }

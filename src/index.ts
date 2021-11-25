@@ -2,15 +2,11 @@
  * @name index
  */
 
-/* private */
-
 import Context from './core/context'
 import Config, { preset as configPreset } from './core/config'
 import Style, { preset as stylePreset } from './core/style'
 import Line, { LineConfig } from './component/line'
 import Blank from './component/blank'
-
-/* public */
 
 /**
  * @name 网页Shell模拟器

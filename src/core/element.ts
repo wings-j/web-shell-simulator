@@ -2,11 +2,7 @@
  * @name 元素
  */
 
-/* private */
-
 import Context from '../core/context'
-
-/* public */
 
 /**
  * @name 元素
@@ -30,7 +26,5 @@ abstract class Element {
     this.dom.remove()
   }
 }
-
-/* construct */
 
 export default Element

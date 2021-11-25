@@ -2,12 +2,8 @@
  * @name 空行
  */
 
-/* private */
-
 import Element from '../core/element'
 import Context from '../core/context'
-
-/* public */
 
 /**
  * @name 空行
@@ -25,7 +21,5 @@ class Blank extends Element {
     dom.innerText = ' '
   }
 }
-
-/* construct */
 
 export default Blank

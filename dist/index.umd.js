@@ -29,7 +29,6 @@
   /**
    * @name 元素
    */
-  /* public */
   /**
    * @name 元素
    */
@@ -77,7 +76,6 @@
    * @name 行
    */
   class Line extends Element {
-      /* private */
       config;
       /**
        * @name 构造方法
@@ -111,7 +109,6 @@
   /**
    * @name 空行
    */
-  /* public */
   /**
    * @name 空行
    */
@@ -130,7 +127,6 @@
   /**
    * @name index
    */
-  /* public */
   /**
    * @name 网页Shell模拟器
    */
