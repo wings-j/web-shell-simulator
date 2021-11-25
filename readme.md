@@ -1,8 +1,6 @@
 # 网页 Shell 模拟器
 
-在网页中模拟 shell 的组件，原生 JS 实现。
-
-示例：[https://wingsj0.github.io/web-shell-simulator/](https://wingsj0.github.io/web-shell-simulator/)
+在网页中模拟 shell 的工具。
 
 ## 安装
 
@@ -12,19 +10,19 @@ npm install --save-dev @wings-j/web-shell-simulator
 
 ## 使用
 
-复制`dist`目录下的`index.js`到代码中，使用 esm/cjs 或 script 方式（注入类`WebShellSimulator`）引入。
+复制`dist`目录下的`index.js`到代码中，使用 esm 或 script 方式（注入类`WebShellSimulator`）引入。
 
 ```js
 import WebShellSimulator from '@wings-j/web-shell-simulator'
 ```
 
 ```html
-<script src="./dist/index.js"></script>
+<script src="./dist/index.umd.js"></script>
 ```
 
 ## 示例
 
-[Demo]()
+[Demo](https://wingsj0.github.io/web-shell-simulator/)
 
 ```js
 let shell = new WebShellSimulator({ prefix: '> ' }, { overflow: 'hidden', width: '100%', height: '100%', 'padding-bottom': '100px', 'font-size': '16px' })

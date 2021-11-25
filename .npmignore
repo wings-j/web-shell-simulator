@@ -1,7 +1,6 @@
-/src
-.babelrc
+src
 .gitignore
-index.html
-package-lock.json
+babel.config.js
+jest.config.js
 rollup.config.js
-tsconfig.json
+tsconfig.jsoon
