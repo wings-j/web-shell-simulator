@@ -10,9 +10,10 @@ interface Style {
 
   width?: number
   height?: number
-  overflow?: 'auto' | 'hidden'
+  overflow?: string
   color?: string
   padding?: string
+  boxSizing?: string
   background?: string
   fontSize?: string
   fontFamily?: string
@@ -22,9 +23,10 @@ interface Style {
 const preset: Style = {
   width: undefined,
   height: undefined,
-  overflow: 'auto',
+  overflow: 'hidden',
   color: '#333',
   padding: '1em',
+  boxSizing: 'border-box',
   background: 'white',
   fontSize: '14px',
   fontFamily: '"Courier New", Courier, monospace',

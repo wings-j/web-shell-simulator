@@ -49,16 +49,14 @@ class Line extends Element {
    * @param config 配置
    */
   constructor(context: Context, text: string, config: LineConfig = {}) {
-    let dom = document.createElement('div')
-
-    super(context, dom)
+    super(context)
 
     this.config = Object.assign({}, preset, config)
 
     if (context.config.prefix && this.config?.prefix) {
       let prefix = document.createElement('span')
       prefix.innerText = context.config.prefix
-      dom.appendChild(prefix)
+      this.dom.appendChild(prefix)
     }
 
     let span = document.createElement('span')
@@ -70,10 +68,8 @@ class Line extends Element {
 
     span.style.color = this.config.color || ''
 
-    dom.style.boxSizing = 'border-box'
-    dom.appendChild(span)
-
-    this.dom = dom
+    this.dom.style.boxSizing = 'border-box'
+    this.dom.appendChild(span)
   }
 }
 

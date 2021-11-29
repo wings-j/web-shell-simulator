@@ -9,14 +9,14 @@ import Context from '../core/context'
  */
 abstract class Element {
   context: Context
-  dom: HTMLElement
+  dom: HTMLElement = document.createElement('div')
 
   /**
-   * 元素
+   * 构造方法
+   * @param context 上下文
    */
-  constructor(context: Context, dom: HTMLElement) {
+  constructor(context: Context) {
     this.context = context
-    this.dom = dom
   }
 
   /**

@@ -14,11 +14,9 @@ class Blank extends Element {
    * @param context 上下文
    */
   constructor(context: Context) {
-    let dom = document.createElement('br')
+    super(context)
 
-    super(context, dom)
-
-    dom.innerText = ' '
+    this.dom.innerText = ' '
   }
 }
 

@@ -8,9 +8,10 @@ interface Style {
     [index: string]: number | string | 'auto' | 'hidden' | undefined;
     width?: number;
     height?: number;
-    overflow?: 'auto' | 'hidden';
+    overflow?: string;
     color?: string;
     padding?: string;
+    boxSizing?: string;
     background?: string;
     fontSize?: string;
     fontFamily?: string;

@@ -9,9 +9,10 @@ declare abstract class Element {
     context: Context;
     dom: HTMLElement;
     /**
-     * 元素
+     * 构造方法
+     * @param context 上下文
      */
-    constructor(context: Context, dom: HTMLElement);
+    constructor(context: Context);
     /**
      * 删除
      */

@@ -17,9 +17,10 @@
   const preset$1 = {
       width: undefined,
       height: undefined,
-      overflow: 'auto',
+      overflow: 'hidden',
       color: '#333',
       padding: '1em',
+      boxSizing: 'border-box',
       background: 'white',
       fontSize: '14px',
       fontFamily: '"Courier New", Courier, monospace',
@@ -34,13 +35,13 @@
    */
   class Element {
       context;
-      dom;
+      dom = document.createElement('div');
       /**
-       * 元素
+       * 构造方法
+       * @param context 上下文
        */
-      constructor(context, dom) {
+      constructor(context) {
           this.context = context;
-          this.dom = dom;
       }
       /**
        * 删除
@@ -84,13 +85,12 @@
        * @param config 配置
        */
       constructor(context, text, config = {}) {
-          let dom = document.createElement('div');
-          super(context, dom);
+          super(context);
           this.config = Object.assign({}, preset, config);
           if (context.config.prefix && this.config?.prefix) {
               let prefix = document.createElement('span');
               prefix.innerText = context.config.prefix;
-              dom.appendChild(prefix);
+              this.dom.appendChild(prefix);
           }
           let span = document.createElement('span');
           if (this.config.typing) {
@@ -100,9 +100,8 @@
               span.innerText = text;
           }
           span.style.color = this.config.color || '';
-          dom.style.boxSizing = 'border-box';
-          dom.appendChild(span);
-          this.dom = dom;
+          this.dom.style.boxSizing = 'border-box';
+          this.dom.appendChild(span);
       }
   }
 
@@ -118,9 +117,8 @@
        * @param context 上下文
        */
       constructor(context) {
-          let dom = document.createElement('br');
-          super(context, dom);
-          dom.innerText = ' ';
+          super(context);
+          this.dom.innerText = ' ';
       }
   }
 
@@ -131,19 +129,16 @@
    * 网页Shell模拟器
    */
   class WebShellSimulator {
-      dom;
       config;
+      dom = document.createElement('div');
+      elements = [];
       /**
        * 构造方法
        * @param config 选项
        */
       constructor(config = {}, style = {}) {
           this.config = Object.assign({}, preset$2, config);
-          let dom = document.createElement('div');
-          dom.style.overflowX = 'hidden';
-          dom.style.boxSizing = 'border-box';
-          Object.assign(dom.style, Object.assign({}, preset$1, style));
-          this.dom = dom;
+          Object.assign(this.dom.style, Object.assign({}, preset$1, style));
       }
       get context() {
           return { dom: this.dom, config: this.config };
@@ -160,20 +155,40 @@
           });
       }
       /**
+       * 挂载
+       * @param selector 选择器
+       */
+      mount(selector) {
+          if (this.dom) {
+              let parent = document.querySelector(selector);
+              if (parent) {
+                  parent.appendChild(this.dom);
+              }
+              else {
+                  throw Error('没有找到容器元素');
+              }
+          }
+      }
+      /**
        * 添加空行
+       * @return 元素
        */
       addBlank() {
           let blank = new Blank(this.context);
+          this.elements.push(blank);
           this.dom.appendChild(blank.dom);
           this.scroll();
+          return blank;
       }
       /**
        * 添加行
        * @param text 文本
        * @param config 配置
+       * @return 元素
        */
       addLine(text, config) {
           let line = new Line(this.context, text, config);
+          this.elements.push(line);
           this.dom.appendChild(line.dom);
           this.scroll();
           return line;
