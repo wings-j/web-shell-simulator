@@ -6,6 +6,7 @@ import Style from './core/style';
 import Element from './core/element';
 import Line, { Config as LineConfig } from './component/line';
 import Blank from './component/blank';
+import Input from './component/input';
 /**
  * 网页Shell模拟器
  */
@@ -42,6 +43,6 @@ declare class WebShellSimulator {
     /**
      * 添加输入
      */
-    addInput(): void;
+    addInput(): Input;
 }
 export default WebShellSimulator;

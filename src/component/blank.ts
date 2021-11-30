@@ -16,7 +16,8 @@ class Blank extends Element {
   constructor(context: Context) {
     super(context)
 
-    this.dom.innerText = ' '
+    let br = document.createElement('br')
+    this.dom.appendChild(br)
   }
 }
 

@@ -84,6 +84,9 @@ class WebShellSimulator {
   addInput() {
     let input = new Input(this.context)
     input.mount()
+    this.scroll()
+
+    return input
   }
 }
 

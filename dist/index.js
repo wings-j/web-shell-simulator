@@ -112,7 +112,8 @@ class Blank extends Element {
      */
     constructor(context) {
         super(context);
-        this.dom.innerText = ' ';
+        let br = document.createElement('br');
+        this.dom.appendChild(br);
     }
 }
 
@@ -120,12 +121,19 @@ class Blank extends Element {
  * 输入
  */
 const stylePreset = {
-    width: '100%'
+    width: '100%',
+    border: 'none',
+    outline: 'none',
+    fontFamily: 'inherit',
+    lineHeight: 'inherit',
+    wordSpacing: 'inherit',
+    letterSpacing: 'inherit'
 };
 /**
  * 类
  */
 class Input extends Element {
+    input;
     /**
      * 构造方法
      * @param context 上下文
@@ -134,7 +142,17 @@ class Input extends Element {
         super(context);
         let input = document.createElement('input');
         Object.assign(input.style, stylePreset);
+        this.input = input;
         this.dom.appendChild(input);
+    }
+    /**
+     * 挂载
+     */
+    mount() {
+        super.mount();
+        setTimeout(() => {
+            this.input.focus();
+        });
     }
 }
 
@@ -210,6 +228,8 @@ class WebShellSimulator {
     addInput() {
         let input = new Input(this.context);
         input.mount();
+        this.scroll();
+        return input;
     }
 }
 
