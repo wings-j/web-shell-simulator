@@ -6,9 +6,9 @@ import Context from './core/context'
 import Config, { preset as configPreset } from './core/config'
 import Style, { preset as stylePreset } from './core/style'
 import Element from './core/element'
-import Line, { Config as LineConfig } from './component/line'
 import Blank from './component/blank'
-import Input from './component/input'
+import Line, { Config as LineConfig } from './component/line'
+import Input, { Config as InputConfig } from './component/input'
 
 /**
  * 网页Shell模拟器
@@ -81,8 +81,8 @@ class WebShellSimulator {
   /**
    * 添加输入
    */
-  addInput() {
-    let input = new Input(this.context)
+  addInput(config?: InputConfig) {
+    let input = new Input(this.context, config)
     input.mount()
     this.scroll()
 

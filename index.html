@@ -20,7 +20,7 @@
 
       shell.addLine('Web Shell Simulator', { color: '#2266ff' })
       shell.addBlank()
-      shell.addInput()
+      shell.addInput({ prefix: '> ' })
 
       document.addEventListener('DOMContentLoaded', () => {
         shell.mount('body')

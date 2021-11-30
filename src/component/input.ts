@@ -5,7 +5,24 @@
 import Element from '../core/element'
 import Context from '../core/context'
 
-const stylePreset = {
+interface Config {
+  color: string
+  prefix: string
+}
+
+const configPreset = {
+  prefix: '',
+  color: 'inherit'
+}
+const style = {
+  display: 'flex',
+  alignItems: 'center'
+}
+const spanStyle = {
+  flexShrink: '0',
+  whiteSpace: 'pre'
+}
+const inputStyle = {
   width: '100%',
   border: 'none',
   outline: 'none',
@@ -19,19 +36,27 @@ const stylePreset = {
  * 类
  */
 class Input extends Element {
+  private config: Config
   private input: HTMLInputElement
 
   /**
    * 构造方法
    * @param context 上下文
    */
-  constructor(context: Context) {
+  constructor(context: Context, config?: Partial<Config>) {
     super(context)
 
-    let input = document.createElement('input')
-    Object.assign(input.style, stylePreset)
+    this.config = Object.assign({}, configPreset, config)
 
+    let span = document.createElement('span')
+    span.innerText = this.config.prefix
+    Object.assign(span.style, spanStyle, { color: this.config.color })
+    let input = document.createElement('input')
+    Object.assign(input.style, inputStyle)
     this.input = input
+
+    Object.assign(this.dom.style, style)
+    this.dom.appendChild(span)
     this.dom.appendChild(input)
   }
 
@@ -48,3 +73,4 @@ class Input extends Element {
 }
 
 export default Input
+export { Config }

@@ -46,7 +46,7 @@ class Line extends Element {
    * @param text 文本
    * @param config 配置
    */
-  constructor(context: Context, text: string, config: Partial<Config> = {}) {
+  constructor(context: Context, text: string, config?: Partial<Config>) {
     super(context)
 
     this.config = Object.assign({}, configPreset, config)
