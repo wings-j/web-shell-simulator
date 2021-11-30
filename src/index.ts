@@ -5,15 +5,16 @@
 import Context from './core/context'
 import Config, { preset as configPreset } from './core/config'
 import Style, { preset as stylePreset } from './core/style'
-import Line, { LineConfig } from './component/line'
-import Blank from './component/blank'
 import Element from './core/element'
+import Line, { Config as LineConfig } from './component/line'
+import Blank from './component/blank'
+import Input from './component/input'
 
 /**
  * 网页Shell模拟器
  */
 class WebShellSimulator {
-  private config: Config
+  private context: Context
   dom: HTMLElement = document.createElement('div')
   elements: Element[] = []
 
@@ -22,13 +23,9 @@ class WebShellSimulator {
    * @param config 选项
    */
   constructor(config: Config = {}, style: Style = {}) {
-    this.config = Object.assign({}, configPreset, config)
-
     Object.assign(this.dom.style, Object.assign({}, stylePreset, style))
-  }
 
-  private get context(): Context {
-    return { dom: this.dom, config: this.config }
+    this.context = { config: Object.assign({}, configPreset, config), dom: this.dom, elements: this.elements }
   }
 
   /**
@@ -63,9 +60,7 @@ class WebShellSimulator {
    */
   addBlank() {
     let blank = new Blank(this.context)
-    this.elements.push(blank)
-
-    this.dom.appendChild(blank.dom)
+    blank.mount()
     this.scroll()
 
     return blank
@@ -78,12 +73,17 @@ class WebShellSimulator {
    */
   addLine(text: string, config?: LineConfig) {
     let line = new Line(this.context, text, config)
-    this.elements.push(line)
-
-    this.dom.appendChild(line.dom)
+    line.mount()
     this.scroll()
 
     return line
+  }
+  /**
+   * 添加输入
+   */
+  addInput() {
+    let input = new Input(this.context)
+    input.mount()
   }
 }
 

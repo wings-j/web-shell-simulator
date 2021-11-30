@@ -16,43 +16,13 @@
     </style>
     <script src="./dist/index.umd.js"></script>
     <script>
-      const green = '#038d02'
-      const blue = '#2266ff'
+      let shell = new WebShellSimulator({}, { overflow: 'hidden', width: '100%', height: '100%', 'padding-bottom': '100px', 'font-size': '16px' })
 
-      let shell = new WebShellSimulator({ prefix: '> ' }, { overflow: 'hidden', width: '100%', height: '100%', 'padding-bottom': '100px', 'font-size': '16px' })
-
-      shell.addLine('*Web* launching ...', { prefix: false, color: blue, typing: true })
-      shell.addLine(`Href: ${window.location.href}`, { prefix: false, color: blue })
-      shell.addLine(`User-agent: ${window.navigator.userAgent}`, { prefix: false, color: blue })
-      shell.addLine(
-        `JS heap usage : ${window.performance.memory.usedJSHeapSize}/${window.performance.memory.jsHeapSizeLimit}, ${(
-          window.performance.memory.usedJSHeapSize / window.performance.memory.jsHeapSizeLimit
-        ).toFixed(4)}%`,
-        { prefix: false, color: blue }
-      )
-      shell.addLine(`Window size: ${window.innerWidth} X ${window.innerHeight}`, { prefix: false, color: blue })
-      shell.addLine(`Document last modified time: ${window.document.lastModified}`, { prefix: false, color: blue })
-
-      for (let a of document.scripts) {
-        if (a.src) {
-          shell.addLine(`[Info] Load script: ${a.src}`, { prefix: false, color: green })
-        }
-      }
+      shell.addLine('Web Shell Simulator', { color: '#2266ff' })
+      shell.addBlank()
 
       document.addEventListener('DOMContentLoaded', () => {
-        document.body.appendChild(shell.dom)
-
-        shell.addLine('[Info] Document DOMContentLoaded', { prefix: false, color: green })
-      })
-
-      window.addEventListener('load', () => {
-        shell.addLine('[Info] Window load', { prefix: false, color: green })
-
-        shell.addLine('Welcome to Web created by WingsJ.', { prefix: false })
-        shell.addLine('This is the space where WingsJ shows his Web works.', { prefix: false })
-        shell.addLine('For more information about WingsJ, visit "http://wings-j.cn".', { prefix: false })
-        shell.addLine('Hope you like it.', { prefix: false })
-        shell.addLine('Please click the card on the left panel to check out web works.', { prefix: false, color: blue })
+        shell.mount('body')
       })
     </script>
   </head>

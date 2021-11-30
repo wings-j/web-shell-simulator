@@ -5,13 +5,9 @@
 /**
  * 配置
  */
-interface Config {
-  prefix?: string
-}
+interface Config {}
 
-const preset: Config = {
-  prefix: ''
-}
+const preset: Config = {}
 
 export default Config
 export { preset }

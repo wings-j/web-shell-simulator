@@ -5,9 +5,17 @@
 import Context from '../core/context'
 import Element from '../core/element'
 
-const preset = {
+/**
+ * 配置
+ */
+interface Config {
+  color: string
+  typing: boolean
+  typingPeriod: number
+}
+
+const configPreset = {
   color: '',
-  prefix: true,
   typing: false,
   typingPeriod: 30
 }
@@ -18,7 +26,7 @@ const preset = {
  * @param text 文本
  * @param period 单字周期
  */
-function type(dom: HTMLElement, text: string, period: number = preset.typingPeriod) {
+function type(dom: HTMLElement, text: string, period: number = configPreset.typingPeriod) {
   for (let i = 0; i < text.length + 1; i++) {
     setTimeout(() => {
       dom.innerText = text.slice(0, i)
@@ -27,20 +35,10 @@ function type(dom: HTMLElement, text: string, period: number = preset.typingPeri
 }
 
 /**
- * 配置
- */
-interface LineConfig {
-  color?: string
-  prefix?: boolean // 显示前缀
-  typing?: boolean
-  typingPeriod?: number
-}
-
-/**
  * 行
  */
 class Line extends Element {
-  config: LineConfig
+  private config: Config
 
   /**
    * 构造方法
@@ -48,16 +46,10 @@ class Line extends Element {
    * @param text 文本
    * @param config 配置
    */
-  constructor(context: Context, text: string, config: LineConfig = {}) {
+  constructor(context: Context, text: string, config: Partial<Config> = {}) {
     super(context)
 
-    this.config = Object.assign({}, preset, config)
-
-    if (context.config.prefix && this.config?.prefix) {
-      let prefix = document.createElement('span')
-      prefix.innerText = context.config.prefix
-      this.dom.appendChild(prefix)
-    }
+    this.config = Object.assign({}, configPreset, config)
 
     let span = document.createElement('span')
     if (this.config.typing) {
@@ -65,13 +57,11 @@ class Line extends Element {
     } else {
       span.innerText = text
     }
-
     span.style.color = this.config.color || ''
 
-    this.dom.style.boxSizing = 'border-box'
     this.dom.appendChild(span)
   }
 }
 
 export default Line
-export { LineConfig }
+export { Config }

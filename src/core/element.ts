@@ -20,10 +20,21 @@ abstract class Element {
   }
 
   /**
+   * 挂载
+   */
+  mount() {
+    this.context.dom.appendChild(this.dom)
+    this.context.elements.push(this)
+  }
+  /**
    * 删除
    */
   remove() {
     this.dom.remove()
+    let i = this.context.elements.indexOf(this)
+    if (i > -1) {
+      this.context.elements.splice(i, 1)
+    }
   }
 }
 

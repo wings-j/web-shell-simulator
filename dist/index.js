@@ -1,16 +1,12 @@
 /**
  * 配置
  */
-const preset$2 = {
-    prefix: ''
-};
+const preset$1 = {};
 
 /**
  * 样式
  */
-const preset$1 = {
-    width: undefined,
-    height: undefined,
+const preset = {
     overflow: 'hidden',
     color: '#333',
     padding: '1em',
@@ -38,19 +34,29 @@ class Element {
         this.context = context;
     }
     /**
+     * 挂载
+     */
+    mount() {
+        this.context.dom.appendChild(this.dom);
+        this.context.elements.push(this);
+    }
+    /**
      * 删除
      */
     remove() {
         this.dom.remove();
+        let i = this.context.elements.indexOf(this);
+        if (i > -1) {
+            this.context.elements.splice(i, 1);
+        }
     }
 }
 
 /**
  * 行
  */
-const preset = {
+const configPreset = {
     color: '',
-    prefix: true,
     typing: false,
     typingPeriod: 30
 };
@@ -60,7 +66,7 @@ const preset = {
  * @param text 文本
  * @param period 单字周期
  */
-function type(dom, text, period = preset.typingPeriod) {
+function type(dom, text, period = configPreset.typingPeriod) {
     for (let i = 0; i < text.length + 1; i++) {
         setTimeout(() => {
             dom.innerText = text.slice(0, i);
@@ -80,12 +86,7 @@ class Line extends Element {
      */
     constructor(context, text, config = {}) {
         super(context);
-        this.config = Object.assign({}, preset, config);
-        if (context.config.prefix && this.config?.prefix) {
-            let prefix = document.createElement('span');
-            prefix.innerText = context.config.prefix;
-            this.dom.appendChild(prefix);
-        }
+        this.config = Object.assign({}, configPreset, config);
         let span = document.createElement('span');
         if (this.config.typing) {
             type(span, text, this.config.typingPeriod);
@@ -94,7 +95,6 @@ class Line extends Element {
             span.innerText = text;
         }
         span.style.color = this.config.color || '';
-        this.dom.style.boxSizing = 'border-box';
         this.dom.appendChild(span);
     }
 }
@@ -117,13 +117,35 @@ class Blank extends Element {
 }
 
 /**
+ * 输入
+ */
+const stylePreset = {
+    width: '100%'
+};
+/**
+ * 类
+ */
+class Input extends Element {
+    /**
+     * 构造方法
+     * @param context 上下文
+     */
+    constructor(context) {
+        super(context);
+        let input = document.createElement('input');
+        Object.assign(input.style, stylePreset);
+        this.dom.appendChild(input);
+    }
+}
+
+/**
  * index
  */
 /**
  * 网页Shell模拟器
  */
 class WebShellSimulator {
-    config;
+    context;
     dom = document.createElement('div');
     elements = [];
     /**
@@ -131,11 +153,8 @@ class WebShellSimulator {
      * @param config 选项
      */
     constructor(config = {}, style = {}) {
-        this.config = Object.assign({}, preset$2, config);
-        Object.assign(this.dom.style, Object.assign({}, preset$1, style));
-    }
-    get context() {
-        return { dom: this.dom, config: this.config };
+        Object.assign(this.dom.style, Object.assign({}, preset, style));
+        this.context = { config: Object.assign({}, preset$1, config), dom: this.dom, elements: this.elements };
     }
     /**
      * 滚动至底部
@@ -169,8 +188,7 @@ class WebShellSimulator {
      */
     addBlank() {
         let blank = new Blank(this.context);
-        this.elements.push(blank);
-        this.dom.appendChild(blank.dom);
+        blank.mount();
         this.scroll();
         return blank;
     }
@@ -182,10 +200,16 @@ class WebShellSimulator {
      */
     addLine(text, config) {
         let line = new Line(this.context, text, config);
-        this.elements.push(line);
-        this.dom.appendChild(line.dom);
+        line.mount();
         this.scroll();
         return line;
+    }
+    /**
+     * 添加输入
+     */
+    addInput() {
+        let input = new Input(this.context);
+        input.mount();
     }
 }
 
