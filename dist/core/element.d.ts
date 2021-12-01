@@ -6,7 +6,7 @@ import Context from '../core/context';
  * 元素
  */
 declare abstract class Element {
-    context: Context;
+    protected context: Context;
     dom: HTMLElement;
     /**
      * 构造方法
@@ -17,7 +17,7 @@ declare abstract class Element {
      * 销毁
      * @description 重载
      */
-    destroy(): void;
+    protected destroy(): void;
     /**
      * 挂载
      */

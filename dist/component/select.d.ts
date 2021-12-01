@@ -20,7 +20,7 @@ declare class Select extends Element {
     private config;
     private $selections;
     private length;
-    private singleIndex;
+    private index;
     active: boolean;
     /**
      * 构造方法
@@ -31,15 +31,16 @@ declare class Select extends Element {
      * 处理键盘弹起
      * @param ev 事件
      */
-    handle_window_keyUp(ev: KeyboardEvent): void;
-    /**
-     * 选择
-     */
-    select(): void;
+    private handle_window_keyUp;
     /**
      * 销毁
      */
-    destroy(): void;
+    protected destroy(): void;
+    /**
+     * 选择
+     * @param index 目标索引
+     */
+    select(index?: number): void;
 }
 export default Select;
 export { PartialConfig as Config };

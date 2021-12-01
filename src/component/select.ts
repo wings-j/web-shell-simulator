@@ -37,7 +37,7 @@ class Select extends Element {
   private config: Config
   private $selections: HTMLDivElement[] = []
   private length = 0
-  private singleIndex = 0
+  private index = 0
   active = true
 
   /**
@@ -76,7 +76,7 @@ class Select extends Element {
    * 处理键盘弹起
    * @param ev 事件
    */
-  handle_window_keyUp(ev: KeyboardEvent) {
+  private handle_window_keyUp(ev: KeyboardEvent) {
     if (this.active) {
       if (this.config.multi) {
         if (ev.code === 'ArrowUp') {
@@ -85,11 +85,11 @@ class Select extends Element {
         }
       } else {
         if (ev.code === 'ArrowUp') {
-          this.singleIndex = Math.max(this.singleIndex - 1, 0)
+          this.index = Math.max(this.index - 1, 0)
 
           this.select()
         } else if (ev.code === 'ArrowDown') {
-          this.singleIndex = Math.min(this.singleIndex + 1, this.length - 1)
+          this.index = Math.min(this.index + 1, this.length - 1)
 
           this.select()
         }
@@ -101,15 +101,25 @@ class Select extends Element {
   }
 
   /**
-   * 选择
+   * 销毁
    */
-  select() {
+  protected destroy() {
+    window.removeEventListener('keyup', this.handle_window_keyUp)
+  }
+
+  /**
+   * 选择
+   * @param index 目标索引
+   */
+  select(index?: number) {
+    index = index ?? this.index
+
     if (this.config.multi) {
     } else {
       for (let i = 0; i < this.length; i++) {
         let target = this.$selections[i].querySelector('.' + class_pointer) as HTMLSpanElement
         if (target) {
-          if (i === this.singleIndex) {
+          if (i === this.index) {
             target.innerText = this.config.singlePositive
           } else {
             target.innerText = this.config.singleNegative
@@ -117,12 +127,6 @@ class Select extends Element {
         }
       }
     }
-  }
-  /**
-   * 销毁
-   */
-  destroy() {
-    window.removeEventListener('keyup', this.handle_window_keyUp)
   }
 }
 

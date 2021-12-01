@@ -228,7 +228,7 @@ class Select extends Element {
     config;
     $selections = [];
     length = 0;
-    singleIndex = 0;
+    index = 0;
     active = true;
     /**
      * 构造方法
@@ -268,11 +268,11 @@ class Select extends Element {
             }
             else {
                 if (ev.code === 'ArrowUp') {
-                    this.singleIndex = Math.max(this.singleIndex - 1, 0);
+                    this.index = Math.max(this.index - 1, 0);
                     this.select();
                 }
                 else if (ev.code === 'ArrowDown') {
-                    this.singleIndex = Math.min(this.singleIndex + 1, this.length - 1);
+                    this.index = Math.min(this.index + 1, this.length - 1);
                     this.select();
                 }
             }
@@ -280,15 +280,23 @@ class Select extends Element {
         if (ev.code === 'Enter') ;
     }
     /**
-     * 选择
+     * 销毁
      */
-    select() {
+    destroy() {
+        window.removeEventListener('keyup', this.handle_window_keyUp);
+    }
+    /**
+     * 选择
+     * @param index 目标索引
+     */
+    select(index) {
+        index = index ?? this.index;
         if (this.config.multi) ;
         else {
             for (let i = 0; i < this.length; i++) {
                 let target = this.$selections[i].querySelector('.' + class_pointer);
                 if (target) {
-                    if (i === this.singleIndex) {
+                    if (i === this.index) {
                         target.innerText = this.config.singlePositive;
                     }
                     else {
@@ -297,12 +305,6 @@ class Select extends Element {
                 }
             }
         }
-    }
-    /**
-     * 销毁
-     */
-    destroy() {
-        window.removeEventListener('keyup', this.handle_window_keyUp);
     }
 }
 

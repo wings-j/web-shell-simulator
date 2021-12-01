@@ -8,7 +8,7 @@ import Context from '../core/context'
  * 元素
  */
 abstract class Element {
-  context: Context
+  protected context: Context
   dom: HTMLElement = document.createElement('div')
 
   /**
@@ -23,7 +23,7 @@ abstract class Element {
    * 销毁
    * @description 重载
    */
-  destroy() {}
+  protected destroy() {}
 
   /**
    * 挂载
