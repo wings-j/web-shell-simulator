@@ -11,6 +11,7 @@ interface Config {
     typing: boolean;
     typingPeriod: number;
 }
+declare type PartialConfig = Partial<Config>;
 /**
  * 行
  */
@@ -22,7 +23,7 @@ declare class Line extends Element {
      * @param text 文本
      * @param config 配置
      */
-    constructor(context: Context, text: string, config?: Partial<Config>);
+    constructor(context: Context, text: string, config?: PartialConfig);
 }
 export default Line;
-export { Config };
+export { PartialConfig as Config };

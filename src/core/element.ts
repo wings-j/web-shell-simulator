@@ -20,6 +20,12 @@ abstract class Element {
   }
 
   /**
+   * 销毁
+   * @description 重载
+   */
+  destroy() {}
+
+  /**
    * 挂载
    */
   mount() {
@@ -31,6 +37,7 @@ abstract class Element {
    */
   remove() {
     this.dom.remove()
+    this.destroy()
     let i = this.context.elements.indexOf(this)
     if (i > -1) {
       this.context.elements.splice(i, 1)

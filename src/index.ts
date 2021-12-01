@@ -9,6 +9,7 @@ import Element from './core/element'
 import Blank from './component/blank'
 import Line, { Config as LineConfig } from './component/line'
 import Input, { Config as InputConfig } from './component/input'
+import Select, { Config as SelectConfig } from './component/select'
 
 /**
  * 网页Shell模拟器
@@ -80,6 +81,8 @@ class WebShellSimulator {
   }
   /**
    * 添加输入
+   * @param config 配置
+   * @return 元素
    */
   addInput(config?: InputConfig) {
     let input = new Input(this.context, config)
@@ -87,6 +90,19 @@ class WebShellSimulator {
     this.scroll()
 
     return input
+  }
+  /**
+   * 添加选择
+   * @param selections 选项
+   * @param config 配置
+   * @return 元素
+   */
+  addSelect(selections: string[], config?: SelectConfig) {
+    let select = new Select(this.context, selections, config)
+    select.mount()
+    this.scroll()
+
+    return select
   }
 }
 

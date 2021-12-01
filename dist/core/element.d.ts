@@ -14,6 +14,11 @@ declare abstract class Element {
      */
     constructor(context: Context);
     /**
+     * 销毁
+     * @description 重载
+     */
+    destroy(): void;
+    /**
      * 挂载
      */
     mount(): void;

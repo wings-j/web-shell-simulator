@@ -13,8 +13,9 @@ interface Config {
   typing: boolean
   typingPeriod: number
 }
+type PartialConfig = Partial<Config>
 
-const configPreset = {
+const preset = {
   color: '',
   typing: false,
   typingPeriod: 30
@@ -26,7 +27,7 @@ const configPreset = {
  * @param text 文本
  * @param period 单字周期
  */
-function type(dom: HTMLElement, text: string, period: number = configPreset.typingPeriod) {
+function type(dom: HTMLElement, text: string, period: number = preset.typingPeriod) {
   for (let i = 0; i < text.length + 1; i++) {
     setTimeout(() => {
       dom.innerText = text.slice(0, i)
@@ -46,10 +47,10 @@ class Line extends Element {
    * @param text 文本
    * @param config 配置
    */
-  constructor(context: Context, text: string, config?: Partial<Config>) {
+  constructor(context: Context, text: string, config?: PartialConfig) {
     super(context)
 
-    this.config = Object.assign({}, configPreset, config)
+    this.config = Object.assign({}, preset, config)
 
     let span = document.createElement('span')
     if (this.config.typing) {
@@ -64,4 +65,4 @@ class Line extends Element {
 }
 
 export default Line
-export { Config }
+export { PartialConfig as Config }

@@ -7,6 +7,7 @@ import Element from './core/element';
 import Blank from './component/blank';
 import Line, { Config as LineConfig } from './component/line';
 import Input, { Config as InputConfig } from './component/input';
+import Select, { Config as SelectConfig } from './component/select';
 /**
  * 网页Shell模拟器
  */
@@ -42,7 +43,16 @@ declare class WebShellSimulator {
     addLine(text: string, config?: LineConfig): Line;
     /**
      * 添加输入
+     * @param config 配置
+     * @return 元素
      */
     addInput(config?: InputConfig): Input;
+    /**
+     * 添加选择
+     * @param selections 选项
+     * @param config 配置
+     * @return 元素
+     */
+    addSelect(selections: string[], config?: SelectConfig): Select;
 }
 export default WebShellSimulator;
