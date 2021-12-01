@@ -26,6 +26,7 @@ const preset$3 = {
 class Element {
     context;
     dom = document.createElement('div');
+    active = true;
     /**
      * 构造方法
      * @param context 上下文
@@ -215,7 +216,8 @@ const preset = {
     singleNegative: '  ',
     multiPositive: '[*] ',
     mulitNegative: '[ ] ',
-    padding: 20
+    padding: 20,
+    callback: () => { }
 };
 const style = {
     whiteSpace: 'pre'
@@ -226,9 +228,11 @@ const class_pointer = 'web-shell-simulator_pointer';
  */
 class Select extends Element {
     config;
+    selections = [];
     $selections = [];
     length = 0;
     index = 0;
+    indexes = [];
     active = true;
     /**
      * 构造方法
@@ -239,6 +243,7 @@ class Select extends Element {
         this.config = Object.assign({}, preset, config);
         Object.assign(this.dom.style, style, { color: this.config.color, paddingLeft: this.config.padding + 'px' });
         this.length = selectons.length;
+        this.selections = selectons;
         for (let a of selectons) {
             let div = document.createElement('div');
             let pointer = document.createElement('span');
@@ -277,7 +282,10 @@ class Select extends Element {
                 }
             }
         }
-        if (ev.code === 'Enter') ;
+        if (ev.code === 'Enter') {
+            this.config.callback(this.config.multi ? this.indexes.map(a => this.selections[a]) : this.selections[this.index]);
+            this.active = false;
+        }
     }
     /**
      * 销毁
@@ -317,7 +325,16 @@ class Select extends Element {
 class WebShellSimulator {
     context;
     dom = document.createElement('div');
-    elements = [];
+    elements = new Proxy([], {
+        set(target, name, value) {
+            for (let i = 0; i < target.length; i++) {
+                if (i !== target.length - 1) {
+                    target[i].active = false;
+                }
+            }
+            return Reflect.set(target, name, value);
+        }
+    });
     /**
      * 构造方法
      * @param config 选项

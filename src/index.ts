@@ -17,7 +17,17 @@ import Select, { Config as SelectConfig } from './component/select'
 class WebShellSimulator {
   private context: Context
   dom: HTMLElement = document.createElement('div')
-  elements: Element[] = []
+  elements: Element[] = new Proxy([], {
+    set(target: Element[], name, value) {
+      for (let i = 0; i < target.length; i++) {
+        if (i !== target.length - 1) {
+          target[i].active = false
+        }
+      }
+
+      return Reflect.set(target, name, value)
+    }
+  })
 
   /**
    * 构造方法

@@ -11,6 +11,7 @@ interface Config {
     multiPositive: string;
     mulitNegative: string;
     padding: number;
+    callback: (res: string | string[]) => void;
 }
 declare type PartialConfig = Partial<Config>;
 /**
@@ -18,9 +19,11 @@ declare type PartialConfig = Partial<Config>;
  */
 declare class Select extends Element {
     private config;
+    private selections;
     private $selections;
     private length;
     private index;
+    private indexes;
     active: boolean;
     /**
      * 构造方法

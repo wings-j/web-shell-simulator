@@ -1,9 +1,7 @@
-import Path from 'path'
 import RollupPluginBabel, { getBabelOutputPlugin } from '@rollup/plugin-babel'
 import RollupPluginNodeResolve from '@rollup/plugin-node-resolve'
 import RollupPluginCommonjs from '@rollup/plugin-commonjs'
 import RollupPluginTypescript2 from 'rollup-plugin-typescript2'
-import RollupPluginDelete from 'rollup-plugin-delete'
 import PackageJson from './package.json'
 
 export default [

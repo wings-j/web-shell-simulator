@@ -10,6 +10,7 @@ import Context from '../core/context'
 abstract class Element {
   protected context: Context
   dom: HTMLElement = document.createElement('div')
+  active: boolean = true
 
   /**
    * 构造方法

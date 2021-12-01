@@ -8,6 +8,7 @@ import Context from '../core/context';
 declare abstract class Element {
     protected context: Context;
     dom: HTMLElement;
+    active: boolean;
     /**
      * 构造方法
      * @param context 上下文

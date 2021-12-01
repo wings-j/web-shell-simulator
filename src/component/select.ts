@@ -13,6 +13,7 @@ interface Config {
   multiPositive: string
   mulitNegative: string
   padding: number
+  callback: (res: string | string[]) => void
 }
 type PartialConfig = Partial<Config>
 
@@ -23,7 +24,8 @@ const preset = {
   singleNegative: '  ',
   multiPositive: '[*] ',
   mulitNegative: '[ ] ',
-  padding: 20
+  padding: 20,
+  callback: () => {}
 }
 const style = {
   whiteSpace: 'pre'
@@ -35,9 +37,11 @@ const class_pointer = 'web-shell-simulator_pointer'
  */
 class Select extends Element {
   private config: Config
+  private selections: string[] = []
   private $selections: HTMLDivElement[] = []
   private length = 0
   private index = 0
+  private indexes: number[] = []
   active = true
 
   /**
@@ -51,6 +55,7 @@ class Select extends Element {
     Object.assign(this.dom.style, style, { color: this.config.color, paddingLeft: this.config.padding + 'px' })
 
     this.length = selectons.length
+    this.selections = selectons
 
     for (let a of selectons) {
       let div = document.createElement('div')
@@ -97,6 +102,8 @@ class Select extends Element {
     }
 
     if (ev.code === 'Enter') {
+      this.config.callback(this.config.multi ? this.indexes.map(a => this.selections[a]) : this.selections[this.index])
+      this.active = false
     }
   }
 

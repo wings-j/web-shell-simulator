@@ -20,8 +20,8 @@
 
       shell.addLine('Web Shell Simulator', { color: '#2266ff' })
       shell.addBlank()
-      shell.addInput({ value: 'input' })
-      shell.addSelect(['Selection A', 'Selection B', 'Selection C'])
+      shell.addInput({ value: 'input', callback: res => console.log(res) })
+      shell.addSelect(['Selection A', 'Selection B', 'Selection C'], { callback: res => console.log(res) })
 
       document.addEventListener('DOMContentLoaded', () => {
         shell.mount('body')
