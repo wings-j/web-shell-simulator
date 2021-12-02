@@ -85,9 +85,9 @@ class Input extends Element {
    * @param ev 事件
    */
   handle_keyup(ev: KeyboardEvent) {
-    if (ev.code === 'Enter') {
+    if (ev.code === 'Enter' && this.$input.value) {
       this.active = false
-      this.config.callback(this.$input.value)
+      this.config.callback(this.$input.value.trim())
 
       if (this.config.removeOnEnter) {
         this.remove()

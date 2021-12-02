@@ -149,6 +149,23 @@ addSelect(selections: string[], config): {element: Select}
 - element：元素
 - promise：选择 Promise
 
+#### 添加表格
+
+```js
+addTable(data: (string|number)[][], config): {element: Table}
+```
+
+参数：
+
+- data：数据
+- config：配置
+  - color：字符串。颜色
+  - padding：单元格右边距
+
+返回：
+
+- element：元素
+
 ### Element
 
 所有添加方法返回 Element 的子类（Line，Blank 等）。

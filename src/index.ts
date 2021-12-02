@@ -10,6 +10,7 @@ import Blank from './component/blank'
 import Line, { Config as LineConfig } from './component/line'
 import Input, { Config as InputConfig } from './component/input'
 import Select, { Config as SelectConfig } from './component/select'
+import Table, { Config as TableConfig } from './component/table'
 
 /**
  * 网页Shell模拟器
@@ -119,6 +120,17 @@ class WebShellSimulator {
     })
 
     return { element, promise }
+  }
+  /**
+   * 添加表格
+   * @param data 数据
+   */
+  addTable(data: (string | number)[][], config?: TableConfig) {
+    let element = new Table(this.context, data, config)
+    element.mount()
+    this.scroll()
+
+    return { element }
   }
 }
 

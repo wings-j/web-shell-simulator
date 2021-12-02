@@ -1,12 +1,12 @@
 /**
  * 配置
  */
-const preset$4 = {};
+const preset$5 = {};
 
 /**
  * 样式
  */
-const preset$3 = {
+const preset$4 = {
     overflow: 'hidden',
     color: '#333',
     padding: '1em',
@@ -80,7 +80,7 @@ class Blank extends Element {
 /**
  * 行
  */
-const preset$2 = {
+const preset$3 = {
     color: '',
     typing: false,
     typingPeriod: 30
@@ -91,7 +91,7 @@ const preset$2 = {
  * @param text 文本
  * @param period 单字周期
  */
-function type(dom, text, period = preset$2.typingPeriod) {
+function type(dom, text, period = preset$3.typingPeriod) {
     for (let i = 0; i < text.length + 1; i++) {
         setTimeout(() => {
             dom.innerText = text.slice(0, i);
@@ -112,7 +112,7 @@ class Line extends Element {
      */
     constructor(context, text, config) {
         super(context);
-        this.config = Object.assign({}, preset$2, config);
+        this.config = Object.assign({}, preset$3, config);
         let span = document.createElement('span');
         if (this.config.typing) {
             type(span, text, this.config.typingPeriod);
@@ -136,7 +136,7 @@ class Line extends Element {
 /**
  * 输入
  */
-const preset$1 = {
+const preset$2 = {
     color: 'inherit',
     prefix: '>',
     padding: 10,
@@ -176,7 +176,7 @@ class Input extends Element {
      */
     constructor(context, config) {
         super(context);
-        this.config = Object.assign({}, preset$1, config);
+        this.config = Object.assign({}, preset$2, config);
         Object.assign(this.dom.style, style$1);
         let span = document.createElement('span');
         span.innerText = this.config.prefix;
@@ -199,9 +199,9 @@ class Input extends Element {
      * @param ev 事件
      */
     handle_keyup(ev) {
-        if (ev.code === 'Enter') {
+        if (ev.code === 'Enter' && this.$input.value) {
             this.active = false;
-            this.config.callback(this.$input.value);
+            this.config.callback(this.$input.value.trim());
             if (this.config.removeOnEnter) {
                 this.remove();
             }
@@ -221,7 +221,7 @@ class Input extends Element {
 /**
  * 单选
  */
-const preset = {
+const preset$1 = {
     color: 'inherit',
     multi: false,
     singlePositive: '* ',
@@ -255,7 +255,7 @@ class Select extends Element {
      */
     constructor(context, selections, config) {
         super(context);
-        this.config = Object.assign({}, preset, config);
+        this.config = Object.assign({}, preset$1, config);
         Object.assign(this.dom.style, style, { color: this.config.color, paddingLeft: this.config.padding + 'px' });
         this.length = selections.length;
         this.selections = selections;
@@ -329,6 +329,53 @@ class Select extends Element {
 }
 
 /**
+ * 表格
+ */
+const preset = {
+    color: 'inherit',
+    padding: 10
+};
+const tableStyle = {
+    verticalAlign: 'top',
+    wordBreak: 'break-all'
+};
+const tbodyStyle = {
+    verticalAlign: 'inherit'
+};
+/**
+ * 类
+ */
+class Table extends Element {
+    config;
+    /**
+     * 构造方法
+     * @param context 上下文
+     * @param data 数据
+     */
+    constructor(context, data, config) {
+        super(context);
+        this.config = Object.assign({}, preset, config);
+        Object.assign(this.dom.style, { color: this.config.color });
+        let table = document.createElement('table');
+        Object.assign(table.style, tableStyle);
+        let tbody = document.createElement('tbody');
+        Object.assign(tbody.style, tbodyStyle);
+        table.appendChild(tbody);
+        for (let a of data) {
+            let tr = document.createElement('tr');
+            for (let b of a) {
+                let td = document.createElement('td');
+                td.innerText = b.toString();
+                td.style.paddingRight = this.config.padding + 'px';
+                tr.appendChild(td);
+            }
+            tbody.appendChild(tr);
+        }
+        this.dom.appendChild(table);
+    }
+}
+
+/**
  * index
  */
 /**
@@ -350,8 +397,8 @@ class WebShellSimulator {
      * @param config 选项
      */
     constructor(config = {}, style = {}) {
-        Object.assign(this.dom.style, Object.assign({}, preset$3, style));
-        this.context = { config: Object.assign({}, preset$4, config), dom: this.dom, elements: this.elements };
+        Object.assign(this.dom.style, Object.assign({}, preset$4, style));
+        this.context = { config: Object.assign({}, preset$5, config), dom: this.dom, elements: this.elements };
     }
     /**
      * 滚动至底部
@@ -429,6 +476,16 @@ class WebShellSimulator {
             this.scroll();
         });
         return { element, promise };
+    }
+    /**
+     * 添加表格
+     * @param data 数据
+     */
+    addTable(data, config) {
+        let element = new Table(this.context, data, config);
+        element.mount();
+        this.scroll();
+        return { element };
     }
 }
 

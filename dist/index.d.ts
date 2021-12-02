@@ -8,6 +8,7 @@ import Blank from './component/blank';
 import Line, { Config as LineConfig } from './component/line';
 import { Config as InputConfig } from './component/input';
 import { Config as SelectConfig } from './component/select';
+import Table, { Config as TableConfig } from './component/table';
 /**
  * 网页Shell模拟器
  */
@@ -63,6 +64,13 @@ declare class WebShellSimulator {
     addSelect(selections: string[], config?: SelectConfig): {
         element: undefined;
         promise: Promise<string | string[]>;
+    };
+    /**
+     * 添加表格
+     * @param data 数据
+     */
+    addTable(data: (string | number)[][], config?: TableConfig): {
+        element: Table;
     };
 }
 export default WebShellSimulator;
