@@ -25,12 +25,35 @@ import WebShellSimulator from '@wings-j/web-shell-simulator'
 [Demo](https://wingsj0.github.io/web-shell-simulator/)
 
 ```js
-// todo
+let shell = new WebShellSimulator({}, { overflow: 'hidden', width: '100%', height: '100%', 'padding-bottom': '100px', 'font-size': '16px' })
+
+document.addEventListener('DOMContentLoaded', () => {
+  shell.mount('body')
+})
+
+let res
+
+shell.addLine('Web Shell Simulator', { color: '#2266ff' })
+shell.addBlank()
+shell.addLine('Input something, confirm with enter ...')
+res = await shell.addInput().promise
+shell.addLine(`Input result: ${res}`)
+shell.addLine('Select one, move with up and down ...')
+res = await shell.addSelect(['a', 'b', 'c']).promise
+shell.addLine(`Select result: ${res}`)
+shell.addLine('Select some, check with space ...')
+res = await shell.addSelect(['a', 'b', 'c'], { multi: true }).promise
+shell.addLine(`Select result: ${res.join(', ')}`)
 ```
 
 ## API
 
 ### WebShellSimulator
+
+#### 属性
+
+- dom：DOM
+- elements：所有元素集合
 
 #### 构造方法
 
@@ -61,7 +84,7 @@ addBlank(): Blank
 
 返回：
 
-- Blank
+- { Blank }
 
 #### 添加文本行
 
@@ -74,17 +97,64 @@ addLine(text: string, config): Line
 - text：字符串。文本
 - config：配置
   - color：字符串。颜色
-  - prefix：布尔。显示前缀
   - typing：布尔。打字动画
   - typingPeriod：数字。打字动画周期
 
 返回：
 
-- Line
+- { Line }
+
+#### 添加输入
+
+```js
+addInput(config): Input
+```
+
+参数：
+
+- config：配置
+  - color: 颜色
+  - prefix: 前缀
+  - padding: 前缀后边距
+  - value: 预设值
+  - callback: 回调。传递输入值
+  - removeOnEnter: 回车后移除
+
+返回：
+
+- { Input, Promise }
+
+#### 添加选择
+
+```js
+addSelect(selections: string[], config): Select
+```
+
+参数：
+
+- config：配置
+  - color：颜色
+  - multi：是否多选
+  - singlePositive：单选选中前缀
+  - singleNegative：单选未选中前缀
+  - multiPositive：多选选中前缀
+  - multiNegative：多选未选中前缀
+  - padding：左边距
+  - callback: 回调。传递选中的选项
+  - removeOnEnter: 回车后移除
+
+返回：
+
+- { Input, Promise }
 
 ### Element
 
 所有添加方法返回 Element 的子类（Line，Blank 等）。
+
+#### 属性
+
+- dom：DOM
+- active：激活状态
 
 #### 挂载元素
 

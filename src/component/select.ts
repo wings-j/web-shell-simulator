@@ -34,7 +34,6 @@ const style = {
   outline: 'none'
 }
 const class_pointer = 'web-shell-simulator_pointer'
-const class_content = 'web-shell-simulator_content'
 
 /**
  * 类
@@ -46,7 +45,6 @@ class Select extends Element {
   private length = 0
   private index = 0
   private indexes: boolean[] = []
-  active = true
 
   /**
    * 构造方法
@@ -70,7 +68,6 @@ class Select extends Element {
       pointer.classList.add(class_pointer)
       pointer.innerText = this.config.singleNegative
       let content = document.createElement('span')
-      content.classList.add(class_content)
       content.innerText = a
 
       div.appendChild(pointer)
@@ -129,10 +126,7 @@ class Select extends Element {
     for (let i = 0; i < this.indexes.length; i++) {
       let element = this.$selections[i]
 
-      let content = element.querySelector('.' + class_content) as HTMLSpanElement
-      if (content) {
-        content.style.textDecoration = i === this.index ? 'underline' : 'none'
-      }
+      element.style.textDecoration = i === this.index ? 'underline' : 'none'
 
       let pointer = element.querySelector('.' + class_pointer) as HTMLSpanElement
       if (pointer) {

@@ -25,7 +25,6 @@ declare class Select extends Element {
     private length;
     private index;
     private indexes;
-    active: boolean;
     /**
      * 构造方法
      * @param context 上下文

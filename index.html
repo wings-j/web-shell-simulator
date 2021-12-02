@@ -26,10 +26,10 @@
 
       shell.addLine('Web Shell Simulator', { color: '#2266ff' })
       shell.addBlank()
-      // shell.addLine('Input something ...')
-      // res = await shell.addInput({ removeOnEnter: true }).promise
-      // shell.addLine(`Input result: ${res}`)
-      shell.addLine('Select one, move with up and down, confirm with enter ...')
+      shell.addLine('Input something, confirm with enter ...')
+      res = await shell.addInput().promise
+      shell.addLine(`Input result: ${res}`)
+      shell.addLine('Select one, move with up and down ...')
       res = await shell.addSelect(['a', 'b', 'c']).promise
       shell.addLine(`Select result: ${res}`)
       shell.addLine('Select some, check with space ...')
