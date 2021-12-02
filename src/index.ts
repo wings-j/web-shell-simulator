@@ -68,11 +68,11 @@ class WebShellSimulator {
    * @return 元素
    */
   addBlank() {
-    let blank = new Blank(this.context)
-    blank.mount()
+    let element = new Blank(this.context)
+    element.mount()
     this.scroll()
 
-    return { blank }
+    return { element }
   }
   /**
    * 添加行
@@ -81,11 +81,11 @@ class WebShellSimulator {
    * @return 元素
    */
   addLine(text: string, config?: LineConfig) {
-    let line = new Line(this.context, text, config)
-    line.mount()
+    let element = new Line(this.context, text, config)
+    element.mount()
     this.scroll()
 
-    return { line }
+    return { element }
   }
   /**
    * 添加输入
@@ -93,15 +93,15 @@ class WebShellSimulator {
    * @return 元素
    */
   addInput(config?: InputConfig) {
-    let input
+    let element
 
     let promise: Promise<string> = new Promise(resolve => {
-      input = new Input(this.context, { ...config, callback: resolve })
-      input.mount()
+      element = new Input(this.context, { ...config, callback: resolve })
+      element.mount()
       this.scroll()
     })
 
-    return { input, promise }
+    return { element, promise }
   }
   /**
    * 添加选择
@@ -110,15 +110,15 @@ class WebShellSimulator {
    * @return 元素
    */
   addSelect(selections: string[], config?: SelectConfig) {
-    let select
+    let element
 
     let promise: Promise<string | string[]> = new Promise(resolve => {
-      select = new Select(this.context, selections, { ...config, callback: resolve })
-      select.mount()
+      element = new Select(this.context, selections, { ...config, callback: resolve })
+      element.mount()
       this.scroll()
     })
 
-    return { select, promise }
+    return { element, promise }
   }
 }
 

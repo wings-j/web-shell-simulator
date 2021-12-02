@@ -34,7 +34,7 @@ declare class WebShellSimulator {
      * @return 元素
      */
     addBlank(): {
-        blank: Blank;
+        element: Blank;
     };
     /**
      * 添加行
@@ -43,7 +43,7 @@ declare class WebShellSimulator {
      * @return 元素
      */
     addLine(text: string, config?: LineConfig): {
-        line: Line;
+        element: Line;
     };
     /**
      * 添加输入
@@ -51,7 +51,7 @@ declare class WebShellSimulator {
      * @return 元素
      */
     addInput(config?: InputConfig): {
-        input: undefined;
+        element: undefined;
         promise: Promise<string>;
     };
     /**
@@ -61,7 +61,7 @@ declare class WebShellSimulator {
      * @return 元素
      */
     addSelect(selections: string[], config?: SelectConfig): {
-        select: undefined;
+        element: undefined;
         promise: Promise<string | string[]>;
     };
 }

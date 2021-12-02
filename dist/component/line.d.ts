@@ -17,6 +17,7 @@ declare type PartialConfig = Partial<Config>;
  */
 declare class Line extends Element {
     private config;
+    private $text;
     /**
      * 构造方法
      * @param context 上下文
@@ -24,6 +25,11 @@ declare class Line extends Element {
      * @param config 配置
      */
     constructor(context: Context, text: string, config?: PartialConfig);
+    /**
+     * 更新
+     * @param text 文本
+     */
+    update(text: string): void;
 }
 export default Line;
 export { PartialConfig as Config };

@@ -79,17 +79,17 @@ mount(selector: string): void
 #### 添加空行
 
 ```js
-addBlank(): Blank
+addBlank(): { element: Blank }
 ```
 
 返回：
 
-- { Blank }
+- element：元素
 
 #### 添加文本行
 
 ```js
-addLine(text: string, config): Line
+addLine(text: string, config): {element: Line}
 ```
 
 参数：
@@ -102,12 +102,12 @@ addLine(text: string, config): Line
 
 返回：
 
-- { Line }
+- element：元素
 
 #### 添加输入
 
 ```js
-addInput(config): Input
+addInput(config): {element: Input}
 ```
 
 参数：
@@ -122,12 +122,13 @@ addInput(config): Input
 
 返回：
 
-- { Input, Promise }
+- element：元素
+- promise：输入 Promise
 
 #### 添加选择
 
 ```js
-addSelect(selections: string[], config): Select
+addSelect(selections: string[], config): {element: Select}
 ```
 
 参数：
@@ -145,7 +146,8 @@ addSelect(selections: string[], config): Select
 
 返回：
 
-- { Input, Promise }
+- element：元素
+- promise：选择 Promise
 
 ### Element
 

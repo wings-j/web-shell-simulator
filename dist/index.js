@@ -103,6 +103,7 @@ function type(dom, text, period = preset$2.typingPeriod) {
  */
 class Line extends Element {
     config;
+    $text;
     /**
      * 构造方法
      * @param context 上下文
@@ -120,7 +121,15 @@ class Line extends Element {
             span.innerText = text;
         }
         span.style.color = this.config.color || '';
+        this.$text = span;
         this.dom.appendChild(span);
+    }
+    /**
+     * 更新
+     * @param text 文本
+     */
+    update(text) {
+        this.$text.innerText = text;
     }
 }
 
@@ -375,10 +384,10 @@ class WebShellSimulator {
      * @return 元素
      */
     addBlank() {
-        let blank = new Blank(this.context);
-        blank.mount();
+        let element = new Blank(this.context);
+        element.mount();
         this.scroll();
-        return { blank };
+        return { element };
     }
     /**
      * 添加行
@@ -387,10 +396,10 @@ class WebShellSimulator {
      * @return 元素
      */
     addLine(text, config) {
-        let line = new Line(this.context, text, config);
-        line.mount();
+        let element = new Line(this.context, text, config);
+        element.mount();
         this.scroll();
-        return { line };
+        return { element };
     }
     /**
      * 添加输入
@@ -398,13 +407,13 @@ class WebShellSimulator {
      * @return 元素
      */
     addInput(config) {
-        let input;
+        let element;
         let promise = new Promise(resolve => {
-            input = new Input(this.context, { ...config, callback: resolve });
-            input.mount();
+            element = new Input(this.context, { ...config, callback: resolve });
+            element.mount();
             this.scroll();
         });
-        return { input, promise };
+        return { element, promise };
     }
     /**
      * 添加选择
@@ -413,13 +422,13 @@ class WebShellSimulator {
      * @return 元素
      */
     addSelect(selections, config) {
-        let select;
+        let element;
         let promise = new Promise(resolve => {
-            select = new Select(this.context, selections, { ...config, callback: resolve });
-            select.mount();
+            element = new Select(this.context, selections, { ...config, callback: resolve });
+            element.mount();
             this.scroll();
         });
-        return { select, promise };
+        return { element, promise };
     }
 }
 

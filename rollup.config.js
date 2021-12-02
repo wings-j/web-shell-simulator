@@ -1,4 +1,4 @@
-import RollupPluginBabel, { getBabelOutputPlugin } from '@rollup/plugin-babel'
+import RollupPluginBabel from '@rollup/plugin-babel'
 import RollupPluginNodeResolve from '@rollup/plugin-node-resolve'
 import RollupPluginCommonjs from '@rollup/plugin-commonjs'
 import RollupPluginTypescript2 from 'rollup-plugin-typescript2'

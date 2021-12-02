@@ -40,6 +40,7 @@ function type(dom: HTMLElement, text: string, period: number = preset.typingPeri
  */
 class Line extends Element {
   private config: Config
+  private $text: HTMLSpanElement
 
   /**
    * 构造方法
@@ -59,8 +60,17 @@ class Line extends Element {
       span.innerText = text
     }
     span.style.color = this.config.color || ''
+    this.$text = span
 
     this.dom.appendChild(span)
+  }
+
+  /**
+   * 更新
+   * @param text 文本
+   */
+  update(text: string) {
+    this.$text.innerText = text
   }
 }
 
