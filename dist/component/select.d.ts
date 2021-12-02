@@ -9,9 +9,10 @@ interface Config {
     singlePositive: string;
     singleNegative: string;
     multiPositive: string;
-    mulitNegative: string;
+    multiNegative: string;
     padding: number;
     callback: (res: string | string[]) => void;
+    removeOnEnter: boolean;
 }
 declare type PartialConfig = Partial<Config>;
 /**
@@ -27,23 +28,20 @@ declare class Select extends Element {
     active: boolean;
     /**
      * 构造方法
+     * @param context 上下文
      * @param selections 选项
+     * @param config 配置
      */
-    constructor(context: Context, selectons: string[], config?: PartialConfig);
+    constructor(context: Context, selections: string[], config?: PartialConfig);
     /**
      * 处理键盘弹起
      * @param ev 事件
      */
-    private handle_window_keyUp;
+    private handle_keyUp;
     /**
-     * 销毁
+     * 渲染
      */
-    protected destroy(): void;
-    /**
-     * 选择
-     * @param index 目标索引
-     */
-    select(index?: number): void;
+    render(): void;
 }
 export default Select;
 export { PartialConfig as Config };

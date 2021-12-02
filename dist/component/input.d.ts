@@ -8,8 +8,8 @@ interface Config {
     prefix: string;
     padding: number;
     value: string;
-    fixOnBlur: boolean;
     callback: (v: string) => void;
+    removeOnEnter: boolean;
 }
 declare type PartialConfig = Partial<Config>;
 /**
@@ -17,13 +17,17 @@ declare type PartialConfig = Partial<Config>;
  */
 declare class Input extends Element {
     private config;
-    private input;
-    active: boolean;
+    private $input;
     /**
      * 构造方法
      * @param context 上下文
      */
     constructor(context: Context, config?: PartialConfig);
+    /**
+     * 处理键盘弹起
+     * @param ev 事件
+     */
+    handle_keyup(ev: KeyboardEvent): void;
     /**
      * 挂载
      */

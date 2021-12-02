@@ -132,8 +132,8 @@ const preset$1 = {
     prefix: '>',
     padding: 10,
     value: '',
-    fixOnBlur: true,
-    callback: () => { }
+    callback: () => { },
+    removeOnEnter: false
 };
 const style$1 = {
     display: 'flex',
@@ -160,8 +160,7 @@ const inputStyle = {
  */
 class Input extends Element {
     config;
-    input;
-    active = true;
+    $input;
     /**
      * 构造方法
      * @param context 上下文
@@ -169,31 +168,35 @@ class Input extends Element {
     constructor(context, config) {
         super(context);
         this.config = Object.assign({}, preset$1, config);
+        Object.assign(this.dom.style, style$1);
         let span = document.createElement('span');
         span.innerText = this.config.prefix;
         Object.assign(span.style, spanStyle, { color: this.config.color });
         let input = document.createElement('input');
         Object.assign(input.style, inputStyle, { marginLeft: this.config.padding + 'px' });
         input.value = this.config.value;
-        input.onfocus = () => {
-            this.active = true;
-        };
-        input.onblur = () => {
-            if (this.config.fixOnBlur) {
-                input.disabled = true;
-            }
-            this.active = false;
-        };
-        input.onkeyup = ev => {
-            if (ev.code === 'Enter') {
-                input.blur();
-                this.config.callback(input.value);
-            }
-        };
-        this.input = input;
-        Object.assign(this.dom.style, style$1);
+        input.onkeyup = this.handle_keyup.bind(this);
+        this.$input = input;
         this.dom.appendChild(span);
         this.dom.appendChild(input);
+        Object.defineProperty(this, 'active', {
+            set(v) {
+                this.$input.disabled = !v;
+            }
+        });
+    }
+    /**
+     * 处理键盘弹起
+     * @param ev 事件
+     */
+    handle_keyup(ev) {
+        if (ev.code === 'Enter') {
+            this.active = false;
+            this.config.callback(this.$input.value);
+            if (this.config.removeOnEnter) {
+                this.remove();
+            }
+        }
     }
     /**
      * 挂载
@@ -201,7 +204,7 @@ class Input extends Element {
     mount() {
         super.mount();
         setTimeout(() => {
-            this.input.focus();
+            this.$input.focus();
         });
     }
 }
@@ -215,14 +218,17 @@ const preset = {
     singlePositive: '* ',
     singleNegative: '  ',
     multiPositive: '[*] ',
-    mulitNegative: '[ ] ',
+    multiNegative: '[ ] ',
     padding: 20,
-    callback: () => { }
+    callback: () => { },
+    removeOnEnter: false
 };
 const style = {
-    whiteSpace: 'pre'
+    whiteSpace: 'pre',
+    outline: 'none'
 };
 const class_pointer = 'web-shell-simulator_pointer';
+const class_content = 'web-shell-simulator_content';
 /**
  * 类
  */
@@ -236,80 +242,83 @@ class Select extends Element {
     active = true;
     /**
      * 构造方法
+     * @param context 上下文
      * @param selections 选项
+     * @param config 配置
      */
-    constructor(context, selectons, config) {
+    constructor(context, selections, config) {
         super(context);
         this.config = Object.assign({}, preset, config);
         Object.assign(this.dom.style, style, { color: this.config.color, paddingLeft: this.config.padding + 'px' });
-        this.length = selectons.length;
-        this.selections = selectons;
-        for (let a of selectons) {
+        this.length = selections.length;
+        this.selections = selections;
+        this.indexes = new Array(selections.length).fill(false);
+        for (let a of selections) {
             let div = document.createElement('div');
             let pointer = document.createElement('span');
             pointer.classList.add(class_pointer);
             pointer.innerText = this.config.singleNegative;
             let content = document.createElement('span');
+            content.classList.add(class_content);
             content.innerText = a;
             div.appendChild(pointer);
             div.appendChild(content);
             this.dom.appendChild(div);
             this.$selections.push(div);
         }
-        this.select();
-        this.handle_window_keyUp = this.handle_window_keyUp.bind(this);
-        window.addEventListener('keyup', this.handle_window_keyUp);
+        this.render();
+        this.dom.tabIndex = -1;
+        setTimeout(() => {
+            this.dom.focus();
+        });
+        this.dom.onkeyup = this.handle_keyUp.bind(this);
     }
     /**
      * 处理键盘弹起
      * @param ev 事件
      */
-    handle_window_keyUp(ev) {
+    handle_keyUp(ev) {
         if (this.active) {
-            if (this.config.multi) {
-                if (ev.code === 'ArrowUp') ;
-                else if (ev.code === 'ArrowDown') ;
-                else if (this.config.multi && ev.code === 'Space') ;
+            if (ev.code === 'ArrowUp') {
+                this.index = Math.max(this.index - 1, 0);
+                if (this.config.multi) ;
+                this.render();
             }
-            else {
-                if (ev.code === 'ArrowUp') {
-                    this.index = Math.max(this.index - 1, 0);
-                    this.select();
-                }
-                else if (ev.code === 'ArrowDown') {
-                    this.index = Math.min(this.index + 1, this.length - 1);
-                    this.select();
+            else if (ev.code === 'ArrowDown') {
+                this.index = Math.min(this.index + 1, this.length - 1);
+                if (this.config.multi) ;
+                this.render();
+            }
+            else if (this.config.multi && ev.code === 'Space') {
+                this.indexes[this.index] = !this.indexes[this.index];
+                this.render();
+            }
+            else if (ev.code === 'Enter') {
+                this.config.callback(this.config.multi ? this.indexes.map((a, i) => (a ? this.selections[i] : [])).flat() : this.selections[this.index]);
+                this.active = false;
+                if (this.config.removeOnEnter) {
+                    this.remove();
                 }
             }
         }
-        if (ev.code === 'Enter') {
-            this.config.callback(this.config.multi ? this.indexes.map(a => this.selections[a]) : this.selections[this.index]);
-            this.active = false;
-        }
     }
     /**
-     * 销毁
+     * 渲染
      */
-    destroy() {
-        window.removeEventListener('keyup', this.handle_window_keyUp);
-    }
-    /**
-     * 选择
-     * @param index 目标索引
-     */
-    select(index) {
-        index = index ?? this.index;
-        if (this.config.multi) ;
-        else {
-            for (let i = 0; i < this.length; i++) {
-                let target = this.$selections[i].querySelector('.' + class_pointer);
-                if (target) {
-                    if (i === this.index) {
-                        target.innerText = this.config.singlePositive;
-                    }
-                    else {
-                        target.innerText = this.config.singleNegative;
-                    }
+    render() {
+        for (let i = 0; i < this.indexes.length; i++) {
+            let element = this.$selections[i];
+            let content = element.querySelector('.' + class_content);
+            if (content) {
+                content.style.textDecoration = i === this.index ? 'underline' : 'none';
+            }
+            let pointer = element.querySelector('.' + class_pointer);
+            if (pointer) {
+                if (this.config.multi) {
+                    pointer.innerText = this.indexes[i] ? this.config.multiPositive : this.config.multiNegative;
+                }
+                else {
+                    pointer.innerText = i === this.index ? this.config.singlePositive : this.config.singleNegative;
                 }
             }
         }
@@ -327,10 +336,8 @@ class WebShellSimulator {
     dom = document.createElement('div');
     elements = new Proxy([], {
         set(target, name, value) {
-            for (let i = 0; i < target.length; i++) {
-                if (i !== target.length - 1) {
-                    target[i].active = false;
-                }
+            for (let i = 0; i < target.length - 1; i++) {
+                target[i].active = false;
             }
             return Reflect.set(target, name, value);
         }
@@ -377,7 +384,7 @@ class WebShellSimulator {
         let blank = new Blank(this.context);
         blank.mount();
         this.scroll();
-        return blank;
+        return { blank };
     }
     /**
      * 添加行
@@ -389,7 +396,7 @@ class WebShellSimulator {
         let line = new Line(this.context, text, config);
         line.mount();
         this.scroll();
-        return line;
+        return { line };
     }
     /**
      * 添加输入
@@ -397,10 +404,13 @@ class WebShellSimulator {
      * @return 元素
      */
     addInput(config) {
-        let input = new Input(this.context, config);
-        input.mount();
-        this.scroll();
-        return input;
+        let input;
+        let promise = new Promise(resolve => {
+            input = new Input(this.context, { ...config, callback: resolve });
+            input.mount();
+            this.scroll();
+        });
+        return { input, promise };
     }
     /**
      * 添加选择
@@ -409,10 +419,13 @@ class WebShellSimulator {
      * @return 元素
      */
     addSelect(selections, config) {
-        let select = new Select(this.context, selections, config);
-        select.mount();
-        this.scroll();
-        return select;
+        let select;
+        let promise = new Promise(resolve => {
+            select = new Select(this.context, selections, { ...config, callback: resolve });
+            select.mount();
+            this.scroll();
+        });
+        return { select, promise };
     }
 }
 

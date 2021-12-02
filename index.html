@@ -15,17 +15,26 @@
       }
     </style>
     <script src="./dist/index.umd.js"></script>
-    <script>
+    <script type="module">
       let shell = new WebShellSimulator({}, { overflow: 'hidden', width: '100%', height: '100%', 'padding-bottom': '100px', 'font-size': '16px' })
-
-      shell.addLine('Web Shell Simulator', { color: '#2266ff' })
-      shell.addBlank()
-      shell.addInput({ value: 'input', callback: res => console.log(res) })
-      shell.addSelect(['Selection A', 'Selection B', 'Selection C'], { callback: res => console.log(res) })
 
       document.addEventListener('DOMContentLoaded', () => {
         shell.mount('body')
       })
+
+      let res
+
+      shell.addLine('Web Shell Simulator', { color: '#2266ff' })
+      shell.addBlank()
+      // shell.addLine('Input something ...')
+      // res = await shell.addInput({ removeOnEnter: true }).promise
+      // shell.addLine(`Input result: ${res}`)
+      shell.addLine('Select one, move with up and down, confirm with enter ...')
+      res = await shell.addSelect(['a', 'b', 'c']).promise
+      shell.addLine(`Select result: ${res}`)
+      shell.addLine('Select some, check with space ...')
+      res = await shell.addSelect(['a', 'b', 'c'], { multi: true }).promise
+      shell.addLine(`Select result: ${res.join(', ')}`)
     </script>
   </head>
   <body> </body>

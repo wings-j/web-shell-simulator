@@ -6,8 +6,8 @@ import Style from './core/style';
 import Element from './core/element';
 import Blank from './component/blank';
 import Line, { Config as LineConfig } from './component/line';
-import Input, { Config as InputConfig } from './component/input';
-import Select, { Config as SelectConfig } from './component/select';
+import { Config as InputConfig } from './component/input';
+import { Config as SelectConfig } from './component/select';
 /**
  * 网页Shell模拟器
  */
@@ -33,26 +33,36 @@ declare class WebShellSimulator {
      * 添加空行
      * @return 元素
      */
-    addBlank(): Blank;
+    addBlank(): {
+        blank: Blank;
+    };
     /**
      * 添加行
      * @param text 文本
      * @param config 配置
      * @return 元素
      */
-    addLine(text: string, config?: LineConfig): Line;
+    addLine(text: string, config?: LineConfig): {
+        line: Line;
+    };
     /**
      * 添加输入
      * @param config 配置
      * @return 元素
      */
-    addInput(config?: InputConfig): Input;
+    addInput(config?: InputConfig): {
+        input: undefined;
+        promise: Promise<string>;
+    };
     /**
      * 添加选择
      * @param selections 选项
      * @param config 配置
      * @return 元素
      */
-    addSelect(selections: string[], config?: SelectConfig): Select;
+    addSelect(selections: string[], config?: SelectConfig): {
+        select: undefined;
+        promise: Promise<string | string[]>;
+    };
 }
 export default WebShellSimulator;

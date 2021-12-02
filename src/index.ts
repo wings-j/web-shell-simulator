@@ -19,10 +19,8 @@ class WebShellSimulator {
   dom: HTMLElement = document.createElement('div')
   elements: Element[] = new Proxy([], {
     set(target: Element[], name, value) {
-      for (let i = 0; i < target.length; i++) {
-        if (i !== target.length - 1) {
-          target[i].active = false
-        }
+      for (let i = 0; i < target.length - 1; i++) {
+        target[i].active = false
       }
 
       return Reflect.set(target, name, value)
@@ -74,7 +72,7 @@ class WebShellSimulator {
     blank.mount()
     this.scroll()
 
-    return blank
+    return { blank }
   }
   /**
    * 添加行
@@ -87,7 +85,7 @@ class WebShellSimulator {
     line.mount()
     this.scroll()
 
-    return line
+    return { line }
   }
   /**
    * 添加输入
@@ -95,11 +93,15 @@ class WebShellSimulator {
    * @return 元素
    */
   addInput(config?: InputConfig) {
-    let input = new Input(this.context, config)
-    input.mount()
-    this.scroll()
+    let input
 
-    return input
+    let promise: Promise<string> = new Promise(resolve => {
+      input = new Input(this.context, { ...config, callback: resolve })
+      input.mount()
+      this.scroll()
+    })
+
+    return { input, promise }
   }
   /**
    * 添加选择
@@ -108,11 +110,15 @@ class WebShellSimulator {
    * @return 元素
    */
   addSelect(selections: string[], config?: SelectConfig) {
-    let select = new Select(this.context, selections, config)
-    select.mount()
-    this.scroll()
+    let select
 
-    return select
+    let promise: Promise<string | string[]> = new Promise(resolve => {
+      select = new Select(this.context, selections, { ...config, callback: resolve })
+      select.mount()
+      this.scroll()
+    })
+
+    return { select, promise }
   }
 }
 

@@ -11,9 +11,10 @@ interface Config {
   singlePositive: string
   singleNegative: string
   multiPositive: string
-  mulitNegative: string
+  multiNegative: string
   padding: number
   callback: (res: string | string[]) => void
+  removeOnEnter: boolean
 }
 type PartialConfig = Partial<Config>
 
@@ -23,14 +24,17 @@ const preset = {
   singlePositive: '* ',
   singleNegative: '  ',
   multiPositive: '[*] ',
-  mulitNegative: '[ ] ',
+  multiNegative: '[ ] ',
   padding: 20,
-  callback: () => {}
+  callback: () => {},
+  removeOnEnter: false
 }
 const style = {
-  whiteSpace: 'pre'
+  whiteSpace: 'pre',
+  outline: 'none'
 }
 const class_pointer = 'web-shell-simulator_pointer'
+const class_content = 'web-shell-simulator_content'
 
 /**
  * 类
@@ -41,28 +45,32 @@ class Select extends Element {
   private $selections: HTMLDivElement[] = []
   private length = 0
   private index = 0
-  private indexes: number[] = []
+  private indexes: boolean[] = []
   active = true
 
   /**
    * 构造方法
+   * @param context 上下文
    * @param selections 选项
+   * @param config 配置
    */
-  constructor(context: Context, selectons: string[], config?: PartialConfig) {
+  constructor(context: Context, selections: string[], config?: PartialConfig) {
     super(context)
 
     this.config = Object.assign({}, preset, config)
     Object.assign(this.dom.style, style, { color: this.config.color, paddingLeft: this.config.padding + 'px' })
 
-    this.length = selectons.length
-    this.selections = selectons
+    this.length = selections.length
+    this.selections = selections
+    this.indexes = new Array(selections.length).fill(false)
 
-    for (let a of selectons) {
+    for (let a of selections) {
       let div = document.createElement('div')
       let pointer = document.createElement('span')
       pointer.classList.add(class_pointer)
       pointer.innerText = this.config.singleNegative
       let content = document.createElement('span')
+      content.classList.add(class_content)
       content.innerText = a
 
       div.appendChild(pointer)
@@ -71,66 +79,67 @@ class Select extends Element {
       this.$selections.push(div)
     }
 
-    this.select()
+    this.render()
 
-    this.handle_window_keyUp = this.handle_window_keyUp.bind(this)
-    window.addEventListener('keyup', this.handle_window_keyUp)
+    this.dom.tabIndex = -1
+    setTimeout(() => {
+      this.dom.focus()
+    })
+    this.dom.onkeyup = this.handle_keyUp.bind(this)
   }
 
   /**
    * 处理键盘弹起
    * @param ev 事件
    */
-  private handle_window_keyUp(ev: KeyboardEvent) {
+  private handle_keyUp(ev: KeyboardEvent) {
     if (this.active) {
-      if (this.config.multi) {
-        if (ev.code === 'ArrowUp') {
-        } else if (ev.code === 'ArrowDown') {
-        } else if (this.config.multi && ev.code === 'Space') {
+      if (ev.code === 'ArrowUp') {
+        this.index = Math.max(this.index - 1, 0)
+        if (this.config.multi) {
+        } else {
         }
-      } else {
-        if (ev.code === 'ArrowUp') {
-          this.index = Math.max(this.index - 1, 0)
 
-          this.select()
-        } else if (ev.code === 'ArrowDown') {
-          this.index = Math.min(this.index + 1, this.length - 1)
+        this.render()
+      } else if (ev.code === 'ArrowDown') {
+        this.index = Math.min(this.index + 1, this.length - 1)
+        if (this.config.multi) {
+        } else {
+        }
 
-          this.select()
+        this.render()
+      } else if (this.config.multi && ev.code === 'Space') {
+        this.indexes[this.index] = !this.indexes[this.index]
+        this.render()
+      } else if (ev.code === 'Enter') {
+        this.config.callback(this.config.multi ? this.indexes.map((a, i) => (a ? this.selections[i] : [])).flat() : this.selections[this.index])
+        this.active = false
+
+        if (this.config.removeOnEnter) {
+          this.remove()
         }
       }
     }
-
-    if (ev.code === 'Enter') {
-      this.config.callback(this.config.multi ? this.indexes.map(a => this.selections[a]) : this.selections[this.index])
-      this.active = false
-    }
   }
 
   /**
-   * 销毁
+   * 渲染
    */
-  protected destroy() {
-    window.removeEventListener('keyup', this.handle_window_keyUp)
-  }
+  render() {
+    for (let i = 0; i < this.indexes.length; i++) {
+      let element = this.$selections[i]
 
-  /**
-   * 选择
-   * @param index 目标索引
-   */
-  select(index?: number) {
-    index = index ?? this.index
+      let content = element.querySelector('.' + class_content) as HTMLSpanElement
+      if (content) {
+        content.style.textDecoration = i === this.index ? 'underline' : 'none'
+      }
 
-    if (this.config.multi) {
-    } else {
-      for (let i = 0; i < this.length; i++) {
-        let target = this.$selections[i].querySelector('.' + class_pointer) as HTMLSpanElement
-        if (target) {
-          if (i === this.index) {
-            target.innerText = this.config.singlePositive
-          } else {
-            target.innerText = this.config.singleNegative
-          }
+      let pointer = element.querySelector('.' + class_pointer) as HTMLSpanElement
+      if (pointer) {
+        if (this.config.multi) {
+          pointer.innerText = this.indexes[i] ? this.config.multiPositive : this.config.multiNegative
+        } else {
+          pointer.innerText = i === this.index ? this.config.singlePositive : this.config.singleNegative
         }
       }
     }

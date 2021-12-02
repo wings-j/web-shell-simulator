@@ -10,8 +10,8 @@ interface Config {
   prefix: string
   padding: number
   value: string
-  fixOnBlur: boolean
   callback: (v: string) => void
+  removeOnEnter: boolean
 }
 type PartialConfig = Partial<Config>
 
@@ -20,8 +20,8 @@ const preset = {
   prefix: '>',
   padding: 10,
   value: '',
-  fixOnBlur: true,
-  callback: () => {}
+  callback: () => {},
+  removeOnEnter: false
 }
 const style = {
   display: 'flex',
@@ -49,8 +49,7 @@ const inputStyle = {
  */
 class Input extends Element {
   private config: Config
-  private input: HTMLInputElement
-  active: boolean = true
+  private $input: HTMLInputElement
 
   /**
    * 构造方法
@@ -60,6 +59,7 @@ class Input extends Element {
     super(context)
 
     this.config = Object.assign({}, preset, config)
+    Object.assign(this.dom.style, style)
 
     let span = document.createElement('span')
     span.innerText = this.config.prefix
@@ -67,28 +67,32 @@ class Input extends Element {
     let input = document.createElement('input')
     Object.assign(input.style, inputStyle, { marginLeft: this.config.padding + 'px' })
     input.value = this.config.value
-    input.onfocus = () => {
-      this.active = true
-    }
-    input.onblur = () => {
-      if (this.config.fixOnBlur) {
-        input.disabled = true
-      }
+    input.onkeyup = this.handle_keyup.bind(this)
+    this.$input = input
 
-      this.active = false
-    }
-    input.onkeyup = ev => {
-      if (ev.code === 'Enter') {
-        input.blur()
-
-        this.config.callback(input.value)
-      }
-    }
-    this.input = input
-
-    Object.assign(this.dom.style, style)
     this.dom.appendChild(span)
     this.dom.appendChild(input)
+
+    Object.defineProperty(this, 'active', {
+      set(v: boolean) {
+        this.$input.disabled = !v
+      }
+    })
+  }
+
+  /**
+   * 处理键盘弹起
+   * @param ev 事件
+   */
+  handle_keyup(ev: KeyboardEvent) {
+    if (ev.code === 'Enter') {
+      this.active = false
+      this.config.callback(this.$input.value)
+
+      if (this.config.removeOnEnter) {
+        this.remove()
+      }
+    }
   }
 
   /**
@@ -98,7 +102,7 @@ class Input extends Element {
     super.mount()
 
     setTimeout(() => {
-      this.input.focus()
+      this.$input.focus()
     })
   }
 }
