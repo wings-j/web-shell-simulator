@@ -64,6 +64,7 @@ new WebShellSimulator(config, style)
 参数：
 
 - config：配置
+  - mouse：使能鼠标点击事件
 - style：样式。CSS 属性对象。
 
 #### 挂载

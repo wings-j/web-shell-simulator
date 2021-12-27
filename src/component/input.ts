@@ -67,7 +67,7 @@ class Input extends Element {
     let input = document.createElement('input')
     Object.assign(input.style, inputStyle, { marginLeft: this.config.padding + 'px' })
     input.value = this.config.value
-    input.onkeyup = this.handle_keyup.bind(this)
+    input.addEventListener('keyup', this.handle_keyup.bind(this))
     this.$input = input
 
     this.dom.appendChild(span)

@@ -1,7 +1,9 @@
 /**
  * 配置
  */
-const preset$5 = {};
+const preset$5 = {
+    mouse: false
+};
 
 /**
  * 样式
@@ -184,7 +186,7 @@ class Input extends Element {
         let input = document.createElement('input');
         Object.assign(input.style, inputStyle, { marginLeft: this.config.padding + 'px' });
         input.value = this.config.value;
-        input.onkeyup = this.handle_keyup.bind(this);
+        input.addEventListener('keyup', this.handle_keyup.bind(this));
         this.$input = input;
         this.dom.appendChild(span);
         this.dom.appendChild(input);
@@ -262,6 +264,9 @@ class Select extends Element {
         this.indexes = new Array(selections.length).fill(false);
         for (let a of selections) {
             let div = document.createElement('div');
+            if (this.context.config.mouse) {
+                div.addEventListener('click', this.handle_click.bind(this, a));
+            }
             let pointer = document.createElement('span');
             pointer.classList.add(class_pointer);
             pointer.innerText = this.config.singleNegative;
@@ -277,7 +282,7 @@ class Select extends Element {
         setTimeout(() => {
             this.dom.focus();
         });
-        this.dom.onkeyup = this.handle_keyUp.bind(this);
+        this.dom.addEventListener('keyup', this.handle_keyUp.bind(this));
     }
     /**
      * 处理键盘弹起
@@ -287,12 +292,10 @@ class Select extends Element {
         if (this.active) {
             if (ev.code === 'ArrowUp') {
                 this.index = Math.max(this.index - 1, 0);
-                if (this.config.multi) ;
                 this.render();
             }
             else if (ev.code === 'ArrowDown') {
                 this.index = Math.min(this.index + 1, this.length - 1);
-                if (this.config.multi) ;
                 this.render();
             }
             else if (this.config.multi && ev.code === 'Space') {
@@ -300,12 +303,21 @@ class Select extends Element {
                 this.render();
             }
             else if (ev.code === 'Enter') {
-                this.config.callback(this.config.multi ? this.indexes.map((a, i) => (a ? this.selections[i] : [])).flat() : this.selections[this.index]);
-                this.active = false;
-                if (this.config.removeOnEnter) {
-                    this.remove();
-                }
+                this.enter();
             }
+        }
+    }
+    /**
+     * 处理点击
+     * @param selection 选项
+     */
+    handle_click(selection) {
+        if (this.active) {
+            this.index = this.selections.indexOf(selection);
+            if (this.config.multi) {
+                this.indexes[this.index] = !this.indexes[this.index];
+            }
+            this.render();
         }
     }
     /**
@@ -324,6 +336,16 @@ class Select extends Element {
                     pointer.innerText = i === this.index ? this.config.singlePositive : this.config.singleNegative;
                 }
             }
+        }
+    }
+    /**
+     * 输入
+     */
+    enter() {
+        this.config.callback(this.config.multi ? this.indexes.map((a, i) => (a ? this.selections[i] : [])).flat() : this.selections[this.index]);
+        this.active = false;
+        if (this.config.removeOnEnter) {
+            this.remove();
         }
     }
 }

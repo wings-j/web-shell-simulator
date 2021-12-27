@@ -38,9 +38,18 @@ declare class Select extends Element {
      */
     private handle_keyUp;
     /**
+     * 处理点击
+     * @param selection 选项
+     */
+    private handle_click;
+    /**
      * 渲染
      */
     render(): void;
+    /**
+     * 输入
+     */
+    enter(): void;
 }
 export default Select;
 export { PartialConfig as Config };

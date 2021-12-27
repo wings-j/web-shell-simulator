@@ -32,7 +32,7 @@ class WebShellSimulator {
    * 构造方法
    * @param config 选项
    */
-  constructor(config: Config = {}, style: Style = {}) {
+  constructor(config: Partial<Config> = {}, style: Style = {}) {
     Object.assign(this.dom.style, Object.assign({}, stylePreset, style))
 
     this.context = { config: Object.assign({}, configPreset, config), dom: this.dom, elements: this.elements }

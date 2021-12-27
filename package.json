@@ -1,6 +1,6 @@
 {
   "name": "@wings-j/web-shell-simulator",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "网页Shell模拟器",
   "author": "wings-j",
   "license": "GPL-3.0-or-later",
@@ -12,7 +12,7 @@
     "dev": "rollup -c -w",
     "test": "jest",
     "build": "rollup -c",
-    "upload": "npm publish --access=public"
+    "release": "npm publish --access=public"
   },
   "repository": {
     "type": "git",

@@ -5,9 +5,13 @@
 /**
  * 配置
  */
-interface Config {}
+interface Config {
+  mouse: boolean
+}
 
-const preset: Config = {}
+const preset: Config = {
+  mouse: false
+}
 
 export default Config
 export { preset }
