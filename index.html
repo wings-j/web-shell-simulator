@@ -35,6 +35,7 @@
       shell.addLine('Select some, check with space ...')
       res = await shell.addSelect(['a', 'b', 'c'], { multi: true }).promise
       shell.addLine(`Select result: ${res.join(', ')}`)
+      shell.clear()
     </script>
   </head>
   <body> </body>

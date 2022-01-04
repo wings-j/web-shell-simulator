@@ -31,6 +31,10 @@ declare class WebShellSimulator {
      */
     mount(selector: string): void;
     /**
+     * 清空
+     */
+    clear(): void;
+    /**
      * 添加空行
      * @return 元素
      */

@@ -449,6 +449,14 @@ class WebShellSimulator {
         }
     }
     /**
+     * 清空
+     */
+    clear() {
+        for (let a of this.elements) {
+            a.remove();
+        }
+    }
+    /**
      * 添加空行
      * @return 元素
      */

@@ -12,6 +12,7 @@ interface Config {
   value: string
   callback: (v: string) => void
   removeOnEnter: boolean
+  allowEmpty: boolean
 }
 type PartialConfig = Partial<Config>
 
@@ -21,7 +22,8 @@ const preset = {
   padding: 10,
   value: '',
   callback: () => {},
-  removeOnEnter: false
+  removeOnEnter: false,
+  allowEmpty: false
 }
 const style = {
   display: 'flex',
@@ -85,7 +87,7 @@ class Input extends Element {
    * @param ev 事件
    */
   handle_keyup(ev: KeyboardEvent) {
-    if (ev.code === 'Enter' && this.$input.value) {
+    if (ev.code === 'Enter' && (this.$input.value || this.config.allowEmpty)) {
       this.active = false
       this.config.callback(this.$input.value.trim())
 

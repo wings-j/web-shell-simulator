@@ -12,7 +12,7 @@ npm install --save-dev @wings-j/web-shell-simulator
 
 复制`dist`目录下的`index.js`到代码中，使用 esm 或 script 方式（注入类`WebShellSimulator`）引入。
 
-```js
+```ts
 import WebShellSimulator from '@wings-j/web-shell-simulator'
 ```
 
@@ -24,7 +24,7 @@ import WebShellSimulator from '@wings-j/web-shell-simulator'
 
 [Demo](https://wingsj0.github.io/web-shell-simulator/)
 
-```js
+```ts
 let shell = new WebShellSimulator({}, { overflow: 'hidden', width: '100%', height: '100%', 'padding-bottom': '100px', 'font-size': '16px' })
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -57,7 +57,7 @@ shell.addLine(`Select result: ${res.join(', ')}`)
 
 #### 构造方法
 
-```js
+```ts
 new WebShellSimulator(config, style)
 ```
 
@@ -69,7 +69,7 @@ new WebShellSimulator(config, style)
 
 #### 挂载
 
-```js
+```ts
 mount(selector: string): void
 ```
 
@@ -77,9 +77,15 @@ mount(selector: string): void
 
 - selector：选择器
 
+#### 清空
+
+```ts
+clear(): void
+```
+
 #### 添加空行
 
-```js
+```ts
 addBlank(): { element: Blank }
 ```
 
@@ -89,7 +95,7 @@ addBlank(): { element: Blank }
 
 #### 添加文本行
 
-```js
+```ts
 addLine(text: string, config): {element: Line}
 ```
 
@@ -107,7 +113,7 @@ addLine(text: string, config): {element: Line}
 
 #### 添加输入
 
-```js
+```ts
 addInput(config): {element: Input}
 ```
 
@@ -128,7 +134,7 @@ addInput(config): {element: Input}
 
 #### 添加选择
 
-```js
+```ts
 addSelect(selections: string[], config): {element: Select}
 ```
 
@@ -152,7 +158,7 @@ addSelect(selections: string[], config): {element: Select}
 
 #### 添加表格
 
-```js
+```ts
 addTable(data: (string|number)[][], config): {element: Table}
 ```
 
@@ -178,12 +184,12 @@ addTable(data: (string|number)[][], config): {element: Table}
 
 #### 挂载元素
 
-```js
+```ts
 mount(): void
 ```
 
 #### 删除元素
 
-```js
+```ts
 remove(): void
 ```
