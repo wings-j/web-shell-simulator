@@ -22,7 +22,6 @@ abstract class Element {
 
   /**
    * 销毁
-   * @description 重载
    */
   protected destroy() {}
 
@@ -44,6 +43,11 @@ abstract class Element {
       this.context.elements.splice(i, 1)
     }
   }
+  /**
+   * 聚焦
+   * @description 重载
+   */
+  focus() {}
 }
 
 export default Element

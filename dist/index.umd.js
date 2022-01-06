@@ -44,7 +44,6 @@
       }
       /**
        * 销毁
-       * @description 重载
        */
       destroy() { }
       /**
@@ -65,6 +64,11 @@
               this.context.elements.splice(i, 1);
           }
       }
+      /**
+       * 聚焦
+       * @description 重载
+       */
+      focus() { }
   }
 
   /**
@@ -150,7 +154,8 @@
       padding: 10,
       value: '',
       callback: () => { },
-      removeOnEnter: false
+      removeOnEnter: false,
+      allowEmpty: false
   };
   const style$1 = {
       display: 'flex',
@@ -176,6 +181,7 @@
    * 类
    */
   class Input extends Element {
+      _active;
       config;
       $input;
       /**
@@ -184,6 +190,7 @@
        */
       constructor(context, config) {
           super(context);
+          this._active = this.active;
           this.config = Object.assign({}, preset$2, config);
           Object.assign(this.dom.style, style$1);
           let span = document.createElement('span');
@@ -198,7 +205,11 @@
           this.dom.appendChild(input);
           Object.defineProperty(this, 'active', {
               set(v) {
+                  this._active = v;
                   this.$input.disabled = !v;
+              },
+              get() {
+                  return this._active;
               }
           });
       }
@@ -207,7 +218,7 @@
        * @param ev 事件
        */
       handle_keyup(ev) {
-          if (ev.code === 'Enter' && this.$input.value) {
+          if (ev.code === 'Enter' && (this.$input.value || this.config.allowEmpty)) {
               this.active = false;
               this.config.callback(this.$input.value.trim());
               if (this.config.removeOnEnter) {
@@ -223,6 +234,12 @@
           setTimeout(() => {
               this.$input.focus();
           });
+      }
+      /**
+       * 聚焦
+       */
+      focus() {
+          this.$input.focus();
       }
   }
 
@@ -285,9 +302,7 @@
           }
           this.render();
           this.dom.tabIndex = -1;
-          setTimeout(() => {
-              this.dom.focus();
-          });
+          setTimeout(this.focus.bind(this));
           this.dom.addEventListener('keyup', this.handle_keyUp.bind(this));
       }
       /**
@@ -353,6 +368,12 @@
           if (this.config.removeOnEnter) {
               this.remove();
           }
+      }
+      /**
+       * 聚焦
+       */
+      focus() {
+          this.dom.focus();
       }
   }
 
@@ -425,8 +446,18 @@
        * @param config 选项
        */
       constructor(config = {}, style = {}) {
-          Object.assign(this.dom.style, Object.assign({}, preset$4, style));
           this.context = { config: Object.assign({}, preset$5, config), dom: this.dom, elements: this.elements };
+          Object.assign(this.dom.style, Object.assign({}, preset$4, style));
+          this.dom.addEventListener('click', this.handle_focus.bind(this));
+      }
+      /**
+       * 聚焦
+       */
+      handle_focus() {
+          let target = this.elements[this.elements.length - 1];
+          if (target && target.active) {
+              target.focus();
+          }
       }
       /**
        * 滚动至底部
@@ -458,8 +489,8 @@
        * 清空
        */
       clear() {
-          for (let a of this.elements) {
-              a.remove();
+          for (let i = this.elements.length - 1; i >= 0; i--) {
+              this.elements[i].remove();
           }
       }
       /**
@@ -528,4 +559,3 @@
   return WebShellSimulator;
 
 }));
-//# sourceMappingURL=index.umd.js.map

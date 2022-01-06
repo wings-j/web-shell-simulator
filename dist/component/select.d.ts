@@ -50,6 +50,10 @@ declare class Select extends Element {
      * 输入
      */
     enter(): void;
+    /**
+     * 聚焦
+     */
+    focus(): void;
 }
 export default Select;
 export { PartialConfig as Config };

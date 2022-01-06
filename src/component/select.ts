@@ -83,9 +83,7 @@ class Select extends Element {
     this.render()
 
     this.dom.tabIndex = -1
-    setTimeout(() => {
-      this.dom.focus()
-    })
+    setTimeout(this.focus.bind(this))
     this.dom.addEventListener('keyup', this.handle_keyUp.bind(this))
   }
 
@@ -155,6 +153,12 @@ class Select extends Element {
     if (this.config.removeOnEnter) {
       this.remove()
     }
+  }
+  /**
+   * 聚焦
+   */
+  focus() {
+    this.dom.focus()
   }
 }
 

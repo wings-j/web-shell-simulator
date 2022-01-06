@@ -50,6 +50,7 @@ const inputStyle = {
  * 类
  */
 class Input extends Element {
+  private _active: boolean
   private config: Config
   private $input: HTMLInputElement
 
@@ -60,6 +61,7 @@ class Input extends Element {
   constructor(context: Context, config?: PartialConfig) {
     super(context)
 
+    this._active = this.active
     this.config = Object.assign({}, preset, config)
     Object.assign(this.dom.style, style)
 
@@ -77,7 +79,11 @@ class Input extends Element {
 
     Object.defineProperty(this, 'active', {
       set(v: boolean) {
+        this._active = v
         this.$input.disabled = !v
+      },
+      get() {
+        return this._active
       }
     })
   }
@@ -86,7 +92,7 @@ class Input extends Element {
    * 处理键盘弹起
    * @param ev 事件
    */
-  handle_keyup(ev: KeyboardEvent) {
+  private handle_keyup(ev: KeyboardEvent) {
     if (ev.code === 'Enter' && (this.$input.value || this.config.allowEmpty)) {
       this.active = false
       this.config.callback(this.$input.value.trim())
@@ -106,6 +112,12 @@ class Input extends Element {
     setTimeout(() => {
       this.$input.focus()
     })
+  }
+  /**
+   * 聚焦
+   */
+  focus() {
+    this.$input.focus()
   }
 }
 

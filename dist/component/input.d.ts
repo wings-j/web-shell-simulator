@@ -10,12 +10,14 @@ interface Config {
     value: string;
     callback: (v: string) => void;
     removeOnEnter: boolean;
+    allowEmpty: boolean;
 }
 declare type PartialConfig = Partial<Config>;
 /**
  * 类
  */
 declare class Input extends Element {
+    private _active;
     private config;
     private $input;
     /**
@@ -27,11 +29,15 @@ declare class Input extends Element {
      * 处理键盘弹起
      * @param ev 事件
      */
-    handle_keyup(ev: KeyboardEvent): void;
+    private handle_keyup;
     /**
      * 挂载
      */
     mount(): void;
+    /**
+     * 聚焦
+     */
+    focus(): void;
 }
 export default Input;
 export { PartialConfig as Config };

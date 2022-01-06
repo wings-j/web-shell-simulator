@@ -22,6 +22,10 @@ declare class WebShellSimulator {
      */
     constructor(config?: Partial<Config>, style?: Style);
     /**
+     * 聚焦
+     */
+    private handle_focus;
+    /**
      * 滚动至底部
      */
     private scroll;

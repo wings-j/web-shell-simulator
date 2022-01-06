@@ -33,11 +33,22 @@ class WebShellSimulator {
    * @param config 选项
    */
   constructor(config: Partial<Config> = {}, style: Style = {}) {
+    this.context = { config: Object.assign({}, configPreset, config), dom: this.dom, elements: this.elements }
+
     Object.assign(this.dom.style, Object.assign({}, stylePreset, style))
 
-    this.context = { config: Object.assign({}, configPreset, config), dom: this.dom, elements: this.elements }
+    this.dom.addEventListener('click', this.handle_focus.bind(this))
   }
 
+  /**
+   * 聚焦
+   */
+  private handle_focus() {
+    let target = this.elements[this.elements.length - 1]
+    if (target && target.active) {
+      target.focus()
+    }
+  }
   /**
    * 滚动至底部
    */
@@ -68,8 +79,8 @@ class WebShellSimulator {
    * 清空
    */
   clear() {
-    for (let a of this.elements) {
-      a.remove()
+    for (let i = this.elements.length - 1; i >= 0; i--) {
+      this.elements[i].remove()
     }
   }
   /**

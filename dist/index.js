@@ -38,7 +38,6 @@ class Element {
     }
     /**
      * 销毁
-     * @description 重载
      */
     destroy() { }
     /**
@@ -59,6 +58,11 @@ class Element {
             this.context.elements.splice(i, 1);
         }
     }
+    /**
+     * 聚焦
+     * @description 重载
+     */
+    focus() { }
 }
 
 /**
@@ -144,7 +148,8 @@ const preset$2 = {
     padding: 10,
     value: '',
     callback: () => { },
-    removeOnEnter: false
+    removeOnEnter: false,
+    allowEmpty: false
 };
 const style$1 = {
     display: 'flex',
@@ -170,6 +175,7 @@ const inputStyle = {
  * 类
  */
 class Input extends Element {
+    _active;
     config;
     $input;
     /**
@@ -178,6 +184,7 @@ class Input extends Element {
      */
     constructor(context, config) {
         super(context);
+        this._active = this.active;
         this.config = Object.assign({}, preset$2, config);
         Object.assign(this.dom.style, style$1);
         let span = document.createElement('span');
@@ -192,7 +199,11 @@ class Input extends Element {
         this.dom.appendChild(input);
         Object.defineProperty(this, 'active', {
             set(v) {
+                this._active = v;
                 this.$input.disabled = !v;
+            },
+            get() {
+                return this._active;
             }
         });
     }
@@ -201,7 +212,7 @@ class Input extends Element {
      * @param ev 事件
      */
     handle_keyup(ev) {
-        if (ev.code === 'Enter' && this.$input.value) {
+        if (ev.code === 'Enter' && (this.$input.value || this.config.allowEmpty)) {
             this.active = false;
             this.config.callback(this.$input.value.trim());
             if (this.config.removeOnEnter) {
@@ -217,6 +228,12 @@ class Input extends Element {
         setTimeout(() => {
             this.$input.focus();
         });
+    }
+    /**
+     * 聚焦
+     */
+    focus() {
+        this.$input.focus();
     }
 }
 
@@ -279,9 +296,7 @@ class Select extends Element {
         }
         this.render();
         this.dom.tabIndex = -1;
-        setTimeout(() => {
-            this.dom.focus();
-        });
+        setTimeout(this.focus.bind(this));
         this.dom.addEventListener('keyup', this.handle_keyUp.bind(this));
     }
     /**
@@ -347,6 +362,12 @@ class Select extends Element {
         if (this.config.removeOnEnter) {
             this.remove();
         }
+    }
+    /**
+     * 聚焦
+     */
+    focus() {
+        this.dom.focus();
     }
 }
 
@@ -419,8 +440,18 @@ class WebShellSimulator {
      * @param config 选项
      */
     constructor(config = {}, style = {}) {
-        Object.assign(this.dom.style, Object.assign({}, preset$4, style));
         this.context = { config: Object.assign({}, preset$5, config), dom: this.dom, elements: this.elements };
+        Object.assign(this.dom.style, Object.assign({}, preset$4, style));
+        this.dom.addEventListener('click', this.handle_focus.bind(this));
+    }
+    /**
+     * 聚焦
+     */
+    handle_focus() {
+        let target = this.elements[this.elements.length - 1];
+        if (target && target.active) {
+            target.focus();
+        }
     }
     /**
      * 滚动至底部
@@ -452,8 +483,8 @@ class WebShellSimulator {
      * 清空
      */
     clear() {
-        for (let a of this.elements) {
-            a.remove();
+        for (let i = this.elements.length - 1; i >= 0; i--) {
+            this.elements[i].remove();
         }
     }
     /**
@@ -520,4 +551,3 @@ class WebShellSimulator {
 }
 
 export { WebShellSimulator as default };
-//# sourceMappingURL=index.js.map

@@ -10,8 +10,7 @@ export default [
     external: Object.keys(PackageJson.dependencies || {}),
     plugins: [RollupPluginTypescript2(), RollupPluginNodeResolve(), RollupPluginCommonjs()],
     output: {
-      file: PackageJson.module,
-      sourcemap: true
+      file: PackageJson.module
     }
   },
   {
@@ -28,8 +27,7 @@ export default [
     output: {
       file: PackageJson.main,
       format: 'umd',
-      name: 'WebShellSimulator',
-      sourcemap: true
+      name: 'WebShellSimulator'
     }
   }
 ]

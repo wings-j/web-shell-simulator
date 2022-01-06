@@ -16,7 +16,6 @@ declare abstract class Element {
     constructor(context: Context);
     /**
      * 销毁
-     * @description 重载
      */
     protected destroy(): void;
     /**
@@ -27,5 +26,10 @@ declare abstract class Element {
      * 删除
      */
     remove(): void;
+    /**
+     * 聚焦
+     * @description 重载
+     */
+    focus(): void;
 }
 export default Element;
