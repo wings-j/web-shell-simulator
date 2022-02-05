@@ -101,11 +101,14 @@ class WebShellSimulator {
    * @return 元素
    */
   addLine(text: string, config?: LineConfig) {
-    let element = new Line(this.context, text, config)
-    element.mount()
-    this.scroll()
+    let element
+    let promise = new Promise(resolve => {
+      element = new Line(this.context, text, Object.assign({}, config, { typingCallback: resolve }))
+      element.mount()
+      this.scroll()
+    })
 
-    return { element }
+    return { element, promise }
   }
   /**
    * 添加输入
@@ -114,7 +117,6 @@ class WebShellSimulator {
    */
   addInput(config?: InputConfig) {
     let element
-
     let promise: Promise<string> = new Promise(resolve => {
       element = new Input(this.context, { ...config, callback: resolve })
       element.mount()

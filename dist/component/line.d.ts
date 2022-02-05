@@ -10,6 +10,7 @@ interface Config {
     color: string;
     typing: boolean;
     typingPeriod: number;
+    typingCallback: () => void;
 }
 declare type PartialConfig = Partial<Config>;
 /**

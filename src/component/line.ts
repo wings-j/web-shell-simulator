@@ -12,13 +12,15 @@ interface Config {
   color: string
   typing: boolean
   typingPeriod: number
+  typingCallback: () => void
 }
 type PartialConfig = Partial<Config>
 
 const preset = {
   color: '',
   typing: false,
-  typingPeriod: 30
+  typingPeriod: 30,
+  typingCallback: () => {}
 }
 
 /**
@@ -27,12 +29,18 @@ const preset = {
  * @param text 文本
  * @param period 单字周期
  */
-function type(dom: HTMLElement, text: string, period: number = preset.typingPeriod) {
-  for (let i = 0; i < text.length + 1; i++) {
-    setTimeout(() => {
-      dom.innerText = text.slice(0, i)
-    }, period * i)
-  }
+async function type(dom: HTMLElement, text: string, period: number = preset.typingPeriod): Promise<void> {
+  return new Promise(resolve => {
+    for (let i = 0; i <= text.length; i++) {
+      setTimeout(() => {
+        dom.innerText = text.slice(0, i)
+
+        if (i === text.length) {
+          resolve()
+        }
+      }, period * i)
+    }
+  })
 }
 
 /**
@@ -55,7 +63,9 @@ class Line extends Element {
 
     let span = document.createElement('span')
     if (this.config.typing) {
-      type(span, text, this.config.typingPeriod)
+      type(span, text, this.config.typingPeriod).then(() => {
+        config?.typingCallback?.()
+      })
     } else {
       span.innerText = text
     }

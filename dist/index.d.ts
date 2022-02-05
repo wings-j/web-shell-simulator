@@ -5,7 +5,7 @@ import Config from './core/config';
 import Style from './core/style';
 import Element from './core/element';
 import Blank from './component/blank';
-import Line, { Config as LineConfig } from './component/line';
+import { Config as LineConfig } from './component/line';
 import { Config as InputConfig } from './component/input';
 import { Config as SelectConfig } from './component/select';
 import Table, { Config as TableConfig } from './component/table';
@@ -52,7 +52,8 @@ declare class WebShellSimulator {
      * @return 元素
      */
     addLine(text: string, config?: LineConfig): {
-        element: Line;
+        element: undefined;
+        promise: Promise<unknown>;
     };
     /**
      * 添加输入

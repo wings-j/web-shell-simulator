@@ -95,7 +95,8 @@
   const preset$3 = {
       color: '',
       typing: false,
-      typingPeriod: 30
+      typingPeriod: 30,
+      typingCallback: () => { }
   };
   /**
    * 打字
@@ -103,12 +104,17 @@
    * @param text 文本
    * @param period 单字周期
    */
-  function type(dom, text, period = preset$3.typingPeriod) {
-      for (let i = 0; i < text.length + 1; i++) {
-          setTimeout(() => {
-              dom.innerText = text.slice(0, i);
-          }, period * i);
-      }
+  async function type(dom, text, period = preset$3.typingPeriod) {
+      return new Promise(resolve => {
+          for (let i = 0; i <= text.length; i++) {
+              setTimeout(() => {
+                  dom.innerText = text.slice(0, i);
+                  if (i === text.length) {
+                      resolve();
+                  }
+              }, period * i);
+          }
+      });
   }
   /**
    * 行
@@ -127,7 +133,9 @@
           this.config = Object.assign({}, preset$3, config);
           let span = document.createElement('span');
           if (this.config.typing) {
-              type(span, text, this.config.typingPeriod);
+              type(span, text, this.config.typingPeriod).then(() => {
+                  config?.typingCallback?.();
+              });
           }
           else {
               span.innerText = text;
@@ -510,10 +518,13 @@
        * @return 元素
        */
       addLine(text, config) {
-          let element = new Line(this.context, text, config);
-          element.mount();
-          this.scroll();
-          return { element };
+          let element;
+          let promise = new Promise(resolve => {
+              element = new Line(this.context, text, Object.assign({}, config, { typingCallback: resolve }));
+              element.mount();
+              this.scroll();
+          });
+          return { element, promise };
       }
       /**
        * 添加输入

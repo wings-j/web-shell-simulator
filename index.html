@@ -24,7 +24,7 @@
 
       let res
 
-      shell.addLine('Web Shell Simulator', { color: '#2266ff' })
+      await shell.addLine('Web Shell Simulator', { color: '#2266ff', typing: true }).promise
       shell.addBlank()
       shell.addLine('Input something, confirm with enter ...')
       res = await shell.addInput().promise
