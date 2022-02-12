@@ -2,7 +2,7 @@
  * 单选
  */
 import Context from '../core/context';
-import Element from '../core/element';
+import Element from '../type/element';
 interface Config {
     color: string;
     multi: boolean;
@@ -19,6 +19,7 @@ declare type PartialConfig = Partial<Config>;
  * 类
  */
 declare class Select extends Element {
+    name: string;
     private config;
     private selections;
     private $selections;

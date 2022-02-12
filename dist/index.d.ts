@@ -3,7 +3,7 @@
  */
 import Config from './core/config';
 import Style from './core/style';
-import Element from './core/element';
+import Element from './type/element';
 import Blank from './component/blank';
 import { Config as LineConfig } from './component/line';
 import { Config as InputConfig } from './component/input';
@@ -16,6 +16,7 @@ declare class WebShellSimulator {
     private context;
     dom: HTMLElement;
     elements: Element[];
+    get current(): Element;
     /**
      * 构造方法
      * @param config 选项

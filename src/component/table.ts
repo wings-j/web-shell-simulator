@@ -3,7 +3,7 @@
  */
 
 import Context from '../core/context'
-import Element from '../core/element'
+import Element from '../type/element'
 
 interface Config {
   color: string
@@ -28,6 +28,7 @@ const tbodyStyle = {
  * 类
  */
 class Table extends Element {
+  name = 'table'
   private config: Config
 
   /**

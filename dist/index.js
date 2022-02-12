@@ -9,7 +9,7 @@ const preset$5 = {
  * 样式
  */
 const preset$4 = {
-    overflow: 'hidden',
+    overflow: 'auto',
     color: '#333',
     padding: '1em',
     boxSizing: 'border-box',
@@ -77,6 +77,7 @@ class Element {
  * 类
  */
 class Blank extends Element {
+    name = 'blank';
     /**
      * 构造方法
      * @param context 上下文
@@ -120,6 +121,7 @@ async function type(dom, text, period = preset$3.typingPeriod) {
  * 行
  */
 class Line extends Element {
+    name = 'line';
     config;
     $text;
     /**
@@ -194,6 +196,7 @@ const inputStyle = {
  * 类
  */
 class Input extends Element {
+    name = 'input';
     _active;
     config;
     $input;
@@ -291,6 +294,7 @@ const class_pointer = 'web-shell-simulator_pointer';
  * 类
  */
 class Select extends Element {
+    name = 'select';
     config;
     selections = [];
     $selections = [];
@@ -444,6 +448,7 @@ const tbodyStyle = {
  * 类
  */
 class Table extends Element {
+    name = 'table';
     config;
     /**
      * 构造方法
@@ -490,13 +495,16 @@ class WebShellSimulator {
             return Reflect.set(target, name, value);
         }
     });
+    get current() {
+        return this.elements[this.elements.length - 1];
+    }
     /**
      * 构造方法
      * @param config 选项
      */
-    constructor(config = {}, style = {}) {
+    constructor(config, style) {
         this.context = { config: Object.assign({}, preset$5, config), dom: this.dom, elements: this.elements };
-        Object.assign(this.dom.style, Object.assign({}, preset$4, style));
+        Object.assign(this.dom.style, preset$4, style);
         this.dom.addEventListener('click', this.handle_focus.bind(this));
     }
     /**

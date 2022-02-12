@@ -1,7 +1,7 @@
 /**
  * 输入
  */
-import Element from '../core/element';
+import Element from '../type/element';
 import Context from '../core/context';
 interface Config {
     color: string;
@@ -17,6 +17,7 @@ declare type PartialConfig = Partial<Config>;
  * 类
  */
 declare class Input extends Element {
+    name: string;
     private _active;
     private config;
     private $input;

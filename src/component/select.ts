@@ -3,7 +3,7 @@
  */
 
 import Context from '../core/context'
-import Element from '../core/element'
+import Element from '../type/element'
 
 interface Config {
   color: string
@@ -39,6 +39,7 @@ const class_pointer = 'web-shell-simulator_pointer'
  * 类
  */
 class Select extends Element {
+  name = 'select'
   private config: Config
   private selections: string[] = []
   private $selections: HTMLDivElement[] = []

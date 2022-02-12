@@ -2,7 +2,7 @@
  * 输入
  */
 
-import Element from '../core/element'
+import Element from '../type/element'
 import Context from '../core/context'
 
 interface Config {
@@ -50,6 +50,7 @@ const inputStyle = {
  * 类
  */
 class Input extends Element {
+  name = 'input'
   private _active: boolean
   private config: Config
   private $input: HTMLInputElement

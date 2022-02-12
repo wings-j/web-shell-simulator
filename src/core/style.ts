@@ -10,7 +10,7 @@ interface Style {
 }
 
 const preset: Style = {
-  overflow: 'hidden',
+  overflow: 'auto',
   color: '#333',
   padding: '1em',
   boxSizing: 'border-box',

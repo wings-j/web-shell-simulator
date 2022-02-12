@@ -3,7 +3,7 @@
  */
 
 import Context from '../core/context'
-import Element from '../core/element'
+import Element from '../type/element'
 
 const preset = {
   color: '',
@@ -39,6 +39,7 @@ async function type(dom: HTMLElement, text: string, period: number = preset.typi
  * 行
  */
 class Line extends Element {
+  name = 'line'
   private config: Config
   private $text: HTMLSpanElement
 

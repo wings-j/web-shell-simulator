@@ -2,7 +2,7 @@
  * 表格
  */
 import Context from '../core/context';
-import Element from '../core/element';
+import Element from '../type/element';
 interface Config {
     color: string;
     padding: number;
@@ -12,6 +12,7 @@ declare type PartialConfig = Partial<Config>;
  * 类
  */
 declare class Table extends Element {
+    name: string;
     private config;
     /**
      * 构造方法

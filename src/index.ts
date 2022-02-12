@@ -5,7 +5,7 @@
 import Context from './core/context'
 import Config, { preset as configPreset } from './core/config'
 import Style, { preset as stylePreset } from './core/style'
-import Element from './core/element'
+import Element from './type/element'
 import Blank from './component/blank'
 import Line, { Config as LineConfig } from './component/line'
 import Input, { Config as InputConfig } from './component/input'
@@ -28,14 +28,18 @@ class WebShellSimulator {
     }
   })
 
+  get current() {
+    return this.elements[this.elements.length - 1]
+  }
+
   /**
    * 构造方法
    * @param config 选项
    */
-  constructor(config: Partial<Config> = {}, style: Style = {}) {
+  constructor(config?: Partial<Config>, style?: Style) {
     this.context = { config: Object.assign({}, configPreset, config), dom: this.dom, elements: this.elements }
 
-    Object.assign(this.dom.style, Object.assign({}, stylePreset, style))
+    Object.assign(this.dom.style, stylePreset, style)
 
     this.dom.addEventListener('click', this.handle_focus.bind(this))
   }

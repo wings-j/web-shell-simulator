@@ -3,7 +3,7 @@
  */
 
 import Config from './config'
-import Element from './element'
+import Element from '../type/element'
 
 interface Context {
   dom: HTMLElement
