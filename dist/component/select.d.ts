@@ -45,15 +45,31 @@ declare class Select extends Element {
     /**
      * 渲染
      */
-    render(): void;
-    /**
-     * 输入
-     */
-    enter(): void;
+    private render;
     /**
      * 聚焦
      */
     focus(): void;
+    /**
+     * 失焦
+     */
+    blur(): void;
+    /**
+     * 回车
+     */
+    enter(): void;
+    /**
+     * 空格
+     */
+    space(): void;
+    /**
+     * 上
+     */
+    up(): void;
+    /**
+     * 下
+     */
+    down(): void;
 }
 export default Select;
 export { PartialConfig as Config };

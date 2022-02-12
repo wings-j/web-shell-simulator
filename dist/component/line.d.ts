@@ -3,15 +3,14 @@
  */
 import Context from '../core/context';
 import Element from '../core/element';
-/**
- * 配置
- */
-interface Config {
+declare const preset: {
     color: string;
     typing: boolean;
     typingPeriod: number;
     typingCallback: () => void;
-}
+    html: boolean;
+};
+declare type Config = typeof preset;
 declare type PartialConfig = Partial<Config>;
 /**
  * 行

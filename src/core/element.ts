@@ -48,6 +48,11 @@ abstract class Element {
    * @description 重载
    */
   focus() {}
+  /**
+   * 失焦
+   * @description 重载
+   */
+  blur() {}
 }
 
 export default Element

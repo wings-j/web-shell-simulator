@@ -31,5 +31,10 @@ declare abstract class Element {
      * @description 重载
      */
     focus(): void;
+    /**
+     * 失焦
+     * @description 重载
+     */
+    blur(): void;
 }
 export default Element;

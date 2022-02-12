@@ -94,16 +94,11 @@ class Select extends Element {
   private handle_keyUp(ev: KeyboardEvent) {
     if (this.active) {
       if (ev.code === 'ArrowUp') {
-        this.index = Math.max(this.index - 1, 0)
-
-        this.render()
+        this.up()
       } else if (ev.code === 'ArrowDown') {
-        this.index = Math.min(this.index + 1, this.length - 1)
-
-        this.render()
+        this.down()
       } else if (this.config.multi && ev.code === 'Space') {
-        this.indexes[this.index] = !this.indexes[this.index]
-        this.render()
+        this.space()
       } else if (ev.code === 'Enter') {
         this.enter()
       }
@@ -123,11 +118,10 @@ class Select extends Element {
       this.render()
     }
   }
-
   /**
    * 渲染
    */
-  render() {
+  private render() {
     for (let i = 0; i < this.indexes.length; i++) {
       let element = this.$selections[i]
 
@@ -143,8 +137,21 @@ class Select extends Element {
       }
     }
   }
+
   /**
-   * 输入
+   * 聚焦
+   */
+  focus() {
+    this.dom.focus()
+  }
+  /**
+   * 失焦
+   */
+  blur() {
+    this.dom.blur()
+  }
+  /**
+   * 回车
    */
   enter() {
     this.config.callback(this.config.multi ? this.indexes.map((a, i) => (a ? this.selections[i] : [])).flat() : this.selections[this.index])
@@ -155,10 +162,28 @@ class Select extends Element {
     }
   }
   /**
-   * 聚焦
+   * 空格
    */
-  focus() {
-    this.dom.focus()
+  space() {
+    this.indexes[this.index] = !this.indexes[this.index]
+
+    this.render()
+  }
+  /**
+   * 上
+   */
+  up() {
+    this.index = Math.max(this.index - 1, 0)
+
+    this.render()
+  }
+  /**
+   * 下
+   */
+  down() {
+    this.index = Math.min(this.index + 1, this.length - 1)
+
+    this.render()
   }
 }
 

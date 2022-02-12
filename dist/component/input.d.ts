@@ -38,6 +38,14 @@ declare class Input extends Element {
      * 聚焦
      */
     focus(): void;
+    /**
+     * 失焦
+     */
+    blur(): void;
+    /**
+     * 回车
+     */
+    enter(): void;
 }
 export default Input;
 export { PartialConfig as Config };

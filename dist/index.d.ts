@@ -44,6 +44,7 @@ declare class WebShellSimulator {
      */
     addBlank(): {
         element: Blank;
+        promise: Promise<void>;
     };
     /**
      * 添加行

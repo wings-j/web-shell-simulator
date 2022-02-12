@@ -1,8 +1,8 @@
 {
   "name": "@wings-j/web-shell-simulator",
-  "version": "1.4.0",
+  "version": "1.6.0",
   "description": "网页Shell模拟器",
-  "author": "wings-j",
+  "author": "WingsJ",
   "license": "GPL-3.0-or-later",
   "type": "module",
   "main": "dist/index.umd.js",

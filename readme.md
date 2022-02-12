@@ -86,7 +86,7 @@ clear(): void
 #### 添加空行
 
 ```ts
-addBlank(): { element: Blank }
+addBlank(): { element: Blank, promise: Promise<void>}
 ```
 
 返回：
@@ -96,7 +96,7 @@ addBlank(): { element: Blank }
 #### 添加文本行
 
 ```ts
-addLine(text: string, config): {element: Line}
+addLine(text: string, config): {element: Line, promise: Promise<void>}
 ```
 
 参数：
@@ -106,6 +106,7 @@ addLine(text: string, config): {element: Line}
   - color：字符串。颜色
   - typing：布尔。打字动画
   - typingPeriod：数字。打字动画周期
+  - html：渲染 HTML
 
 返回：
 
@@ -114,7 +115,7 @@ addLine(text: string, config): {element: Line}
 #### 添加输入
 
 ```ts
-addInput(config): {element: Input}
+addInput(config): {element: Input, promise: Promise<string>}
 ```
 
 参数：
@@ -135,7 +136,7 @@ addInput(config): {element: Input}
 #### 添加选择
 
 ```ts
-addSelect(selections: string[], config): {element: Select}
+addSelect(selections: string[], config): {element: Select, promise: Promise<string|string[]>}
 ```
 
 参数：
@@ -159,7 +160,7 @@ addSelect(selections: string[], config): {element: Select}
 #### 添加表格
 
 ```ts
-addTable(data: (string|number)[][], config): {element: Table}
+addTable(data: (string|number)[][], config): {element: Table, promise: Promise<void>}
 ```
 
 参数：

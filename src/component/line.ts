@@ -5,23 +5,15 @@
 import Context from '../core/context'
 import Element from '../core/element'
 
-/**
- * 配置
- */
-interface Config {
-  color: string
-  typing: boolean
-  typingPeriod: number
-  typingCallback: () => void
-}
-type PartialConfig = Partial<Config>
-
 const preset = {
   color: '',
   typing: false,
   typingPeriod: 30,
-  typingCallback: () => {}
+  typingCallback: () => {},
+  html: false
 }
+type Config = typeof preset
+type PartialConfig = Partial<Config>
 
 /**
  * 打字
@@ -67,7 +59,11 @@ class Line extends Element {
         config?.typingCallback?.()
       })
     } else {
-      span.innerText = text
+      if (this.config.html) {
+        span.innerHTML = text
+      } else {
+        span.innerText = text
+      }
     }
     span.style.color = this.config.color || ''
     this.$text = span

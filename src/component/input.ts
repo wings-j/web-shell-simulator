@@ -94,12 +94,7 @@ class Input extends Element {
    */
   private handle_keyup(ev: KeyboardEvent) {
     if (ev.code === 'Enter' && (this.$input.value || this.config.allowEmpty)) {
-      this.active = false
-      this.config.callback(this.$input.value.trim())
-
-      if (this.config.removeOnEnter) {
-        this.remove()
-      }
+      this.enter()
     }
   }
 
@@ -118,6 +113,23 @@ class Input extends Element {
    */
   focus() {
     this.$input.focus()
+  }
+  /**
+   * 失焦
+   */
+  blur() {
+    this.$input.blur()
+  }
+  /**
+   * 回车
+   */
+  enter() {
+    this.active = false
+    this.config.callback(this.$input.value.trim())
+
+    if (this.config.removeOnEnter) {
+      this.remove()
+    }
   }
 }
 

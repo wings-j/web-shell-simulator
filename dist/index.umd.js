@@ -69,6 +69,11 @@
        * @description 重载
        */
       focus() { }
+      /**
+       * 失焦
+       * @description 重载
+       */
+      blur() { }
   }
 
   /**
@@ -96,7 +101,8 @@
       color: '',
       typing: false,
       typingPeriod: 30,
-      typingCallback: () => { }
+      typingCallback: () => { },
+      html: false
   };
   /**
    * 打字
@@ -138,7 +144,12 @@
               });
           }
           else {
-              span.innerText = text;
+              if (this.config.html) {
+                  span.innerHTML = text;
+              }
+              else {
+                  span.innerText = text;
+              }
           }
           span.style.color = this.config.color || '';
           this.$text = span;
@@ -227,11 +238,7 @@
        */
       handle_keyup(ev) {
           if (ev.code === 'Enter' && (this.$input.value || this.config.allowEmpty)) {
-              this.active = false;
-              this.config.callback(this.$input.value.trim());
-              if (this.config.removeOnEnter) {
-                  this.remove();
-              }
+              this.enter();
           }
       }
       /**
@@ -248,6 +255,22 @@
        */
       focus() {
           this.$input.focus();
+      }
+      /**
+       * 失焦
+       */
+      blur() {
+          this.$input.blur();
+      }
+      /**
+       * 回车
+       */
+      enter() {
+          this.active = false;
+          this.config.callback(this.$input.value.trim());
+          if (this.config.removeOnEnter) {
+              this.remove();
+          }
       }
   }
 
@@ -320,16 +343,13 @@
       handle_keyUp(ev) {
           if (this.active) {
               if (ev.code === 'ArrowUp') {
-                  this.index = Math.max(this.index - 1, 0);
-                  this.render();
+                  this.up();
               }
               else if (ev.code === 'ArrowDown') {
-                  this.index = Math.min(this.index + 1, this.length - 1);
-                  this.render();
+                  this.down();
               }
               else if (this.config.multi && ev.code === 'Space') {
-                  this.indexes[this.index] = !this.indexes[this.index];
-                  this.render();
+                  this.space();
               }
               else if (ev.code === 'Enter') {
                   this.enter();
@@ -368,7 +388,19 @@
           }
       }
       /**
-       * 输入
+       * 聚焦
+       */
+      focus() {
+          this.dom.focus();
+      }
+      /**
+       * 失焦
+       */
+      blur() {
+          this.dom.blur();
+      }
+      /**
+       * 回车
        */
       enter() {
           this.config.callback(this.config.multi ? this.indexes.map((a, i) => (a ? this.selections[i] : [])).flat() : this.selections[this.index]);
@@ -378,10 +410,25 @@
           }
       }
       /**
-       * 聚焦
+       * 空格
        */
-      focus() {
-          this.dom.focus();
+      space() {
+          this.indexes[this.index] = !this.indexes[this.index];
+          this.render();
+      }
+      /**
+       * 上
+       */
+      up() {
+          this.index = Math.max(this.index - 1, 0);
+          this.render();
+      }
+      /**
+       * 下
+       */
+      down() {
+          this.index = Math.min(this.index + 1, this.length - 1);
+          this.render();
       }
   }
 
@@ -509,7 +556,7 @@
           let element = new Blank(this.context);
           element.mount();
           this.scroll();
-          return { element };
+          return { element, promise: Promise.resolve() };
       }
       /**
        * 添加行

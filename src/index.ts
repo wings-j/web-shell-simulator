@@ -92,7 +92,7 @@ class WebShellSimulator {
     element.mount()
     this.scroll()
 
-    return { element }
+    return { element, promise: Promise.resolve() }
   }
   /**
    * 添加行
