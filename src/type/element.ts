@@ -11,6 +11,7 @@ abstract class Element {
   protected context: Context
   dom: HTMLElement = document.createElement('div')
   active: boolean = true
+  name = ''
 
   /**
    * 构造方法

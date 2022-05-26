@@ -27,7 +27,8 @@ export default [
     output: {
       file: PackageJson.main,
       format: 'umd',
-      name: 'WebShellSimulator'
+      name: 'WebShellSimulator',
+      exports: 'named'
     }
   }
 ]

@@ -1,8 +1,8 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.WebShellSimulator = factory());
-})(this, (function () { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.WebShellSimulator = {}));
+})(this, (function (exports) { 'use strict';
 
   /**
    * 配置
@@ -35,6 +35,7 @@
       context;
       dom = document.createElement('div');
       active = true;
+      name = '';
       /**
        * 构造方法
        * @param context 上下文
@@ -579,7 +580,7 @@
               element.mount();
               this.scroll();
           });
-          return { element, promise };
+          return { element: element, promise };
       }
       /**
        * 添加输入
@@ -622,6 +623,13 @@
       }
   }
 
-  return WebShellSimulator;
+  exports.Blank = Blank;
+  exports.Input = Input;
+  exports.Line = Line;
+  exports.Select = Select;
+  exports.Table = Table;
+  exports["default"] = WebShellSimulator;
+
+  Object.defineProperty(exports, '__esModule', { value: true });
 
 }));

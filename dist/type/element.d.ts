@@ -9,6 +9,7 @@ declare abstract class Element {
     protected context: Context;
     dom: HTMLElement;
     active: boolean;
+    name: string;
     /**
      * 构造方法
      * @param context 上下文

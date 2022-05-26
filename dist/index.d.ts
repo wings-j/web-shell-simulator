@@ -5,9 +5,9 @@ import Config from './core/config';
 import Style from './core/style';
 import Element from './type/element';
 import Blank from './component/blank';
-import { Config as LineConfig } from './component/line';
-import { Config as InputConfig } from './component/input';
-import { Config as SelectConfig } from './component/select';
+import Line, { Config as LineConfig } from './component/line';
+import Input, { Config as InputConfig } from './component/input';
+import Select, { Config as SelectConfig } from './component/select';
 import Table, { Config as TableConfig } from './component/table';
 /**
  * 网页Shell模拟器
@@ -54,7 +54,7 @@ declare class WebShellSimulator {
      * @return 元素
      */
     addLine(text: string, config?: LineConfig): {
-        element: undefined;
+        element: Line;
         promise: Promise<unknown>;
     };
     /**
@@ -85,3 +85,4 @@ declare class WebShellSimulator {
     };
 }
 export default WebShellSimulator;
+export { Blank, Line, Input, Select, Table };

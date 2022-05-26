@@ -29,6 +29,7 @@ class Element {
     context;
     dom = document.createElement('div');
     active = true;
+    name = '';
     /**
      * 构造方法
      * @param context 上下文
@@ -573,7 +574,7 @@ class WebShellSimulator {
             element.mount();
             this.scroll();
         });
-        return { element, promise };
+        return { element: element, promise };
     }
     /**
      * 添加输入
@@ -616,4 +617,4 @@ class WebShellSimulator {
     }
 }
 
-export { WebShellSimulator as default };
+export { Blank, Input, Line, Select, Table, WebShellSimulator as default };

@@ -105,14 +105,14 @@ class WebShellSimulator {
    * @return 元素
    */
   addLine(text: string, config?: LineConfig) {
-    let element
+    let element: Line
     let promise = new Promise(resolve => {
       element = new Line(this.context, text, Object.assign({}, config, { typingCallback: resolve }))
       element.mount()
       this.scroll()
     })
 
-    return { element, promise }
+    return { element: element!, promise }
   }
   /**
    * 添加输入
@@ -160,3 +160,4 @@ class WebShellSimulator {
 }
 
 export default WebShellSimulator
+export { Blank, Line, Input, Select, Table }

@@ -16,7 +16,10 @@
     </style>
     <script src="./dist/index.umd.js"></script>
     <script type="module">
-      let shell = new WebShellSimulator({ mouse: true }, { overflow: 'hidden', width: '100%', height: '100%', 'padding-bottom': '100px', 'font-size': '16px' })
+      let shell = new WebShellSimulator.default(
+        { mouse: true },
+        { overflow: 'hidden', width: '100%', height: '100%', 'padding-bottom': '100px', 'font-size': '16px' }
+      )
 
       document.addEventListener('DOMContentLoaded', () => {
         shell.mount('body')
@@ -26,6 +29,7 @@
 
       await shell.addLine('Web Shell Simulator', { color: '#2266ff', typing: true }).promise
       shell.addBlank()
+      shell.addLine('<span>InnerHTML test.</span>', { html: true })
       shell.addLine('Input something, confirm with enter ...')
       res = await shell.addInput().promise
       shell.addLine(`Input result: ${res}`)
