@@ -1,16 +1,16 @@
-# 网页 Shell 模拟器
+# web-shell-simulator
 
-在网页中模拟 shell 的工具。
+A tool for simulating shell in browser.
 
-## 安装
+## Usage
+
+Install:
 
 ```sh
 npm install --save-dev @wings-j/web-shell-simulator
 ```
 
-## 使用
-
-复制`dist`目录下的`index.js`到代码中，使用 esm 或 script 方式（注入类`WebShellSimulator`）引入。
+You can use this as ESM or IIFE:
 
 ```ts
 import WebShellSimulator from '@wings-j/web-shell-simulator'
@@ -20,9 +20,9 @@ import WebShellSimulator from '@wings-j/web-shell-simulator'
 <script src="./dist/index.umd.js"></script>
 ```
 
-## 示例
+## Demo
 
-[Demo](https://wingsj0.github.io/web-shell-simulator/)
+[https://wingsj0.github.io/web-shell-simulator](https://wingsj0.github.io/web-shell-simulator/)
 
 ```ts
 let shell = new WebShellSimulator({}, { overflow: 'hidden', width: '100%', height: '100%', 'padding-bottom': '100px', 'font-size': '16px' })
@@ -50,147 +50,124 @@ shell.addLine(`Select result: ${res.join(', ')}`)
 
 ### WebShellSimulator
 
-#### 属性
+#### `new WebShellSimulator(config, style)`
 
-- dom：DOM
-- elements：所有元素集合
+Parameters：
 
-#### 构造方法
+- `config`：Configuration
+  - `mouse`：enable mouse event
+- `style`：style, CSS map
 
-```ts
-new WebShellSimulator(config, style)
-```
+- `dom`：DOM
+- `elements`：all elements
 
-参数：
+#### `mount(selector: string): void`
 
-- config：配置
-  - mouse：使能鼠标点击事件
-- style：样式。CSS 属性对象。
-
-#### 挂载
-
-```ts
-mount(selector: string): void
-```
+Mount the element to document.
 
 参数：
 
-- selector：选择器
+- `selector`：selector
 
-#### 清空
+#### `clear(): void`
 
-```ts
-clear(): void
-```
+Clear lines.
 
-#### 添加空行
+#### `addBlank(): { element: Blank, promise: Promise<void>}`
 
-```ts
-addBlank(): { element: Blank, promise: Promise<void>}
-```
+Add of blank line.
 
-返回：
+Return:
 
-- element：元素
+- `element`: the line element
+- `promise`: the promise of the action
 
-#### 添加文本行
+#### `addLine(text: string, config: {color: string, typing: boolean, typingPeriod: number, html: string}): {element: Line, promise: Promise<void>}`
 
-```ts
-addLine(text: string, config): {element: Line, promise: Promise<void>}
-```
+Add a text line.
 
-参数：
+Parameters：
 
-- text：字符串。文本
-- config：配置
-  - color：字符串。颜色
-  - typing：布尔。打字动画
-  - typingPeriod：数字。打字动画周期
-  - html：渲染 HTML
+- `text`：text
+- `config`：configuration
+  - `color`：color of the text
+  - `typing`：whether to enable typing aniation
+  - `typingPeriod`：typing aniation duration
+  - `html`：render as HTML
 
-返回：
+Return：
 
-- element：元素
+- `element`: the line element
+- `promise`: the promise of the action
 
-#### 添加输入
+#### `addInput(config: {color: string, prefix: string, padding: number, value: string, callback: Function, removeOnEnter: boolean}): {element: Input, promise: Promise<string>}`
 
-```ts
-addInput(config): {element: Input, promise: Promise<string>}
-```
+Add a input line.
 
 参数：
 
-- config：配置
-  - color: 颜色
-  - prefix: 前缀
-  - padding: 前缀后边距
-  - value: 预设值
-  - callback: 回调。传递输入值
-  - removeOnEnter: 回车后移除
+- config：configuration
+  - color: color
+  - prefix: prefix
+  - padding: left padding
+  - value: preset value
+  - callback: callback invoked when enter typed, with the text as parameter
+  - removeOnEnter: remove this line after enter
 
-返回：
+Return：
 
-- element：元素
-- promise：输入 Promise
+- `element`: the line element
+- `promise`: the promise of the action
 
-#### 添加选择
+#### `addSelect(selections: string[], config: {color: string, multi: boolean, singlePositive: string, singleNegative: string, multiPositive: string, multiNegative: string, padding: number, callback: Function, removeOnEnter: boolean}): {element: Select, promise: Promise<string|string[]>}`
 
-```ts
-addSelect(selections: string[], config): {element: Select, promise: Promise<string|string[]>}
-```
+Add a select line.
 
-参数：
+Parameters：
 
-- config：配置
-  - color：颜色
-  - multi：是否多选
-  - singlePositive：单选选中前缀
-  - singleNegative：单选未选中前缀
-  - multiPositive：多选选中前缀
-  - multiNegative：多选未选中前缀
-  - padding：左边距
-  - callback: 回调。传递选中的选项
-  - removeOnEnter: 回车后移除
+- config：config
+  - color：color
+  - multi：multiply selecting
+  - singlePositive：prefix of the selected selection for single selecting
+  - singleNegative: prefix of the unselected selection for single selecting
+  - multiPositive：prefix of the selected selection for multiply selecting
+  - multiNegative：prefix of the selected selection for multiply selecting
+  - padding：left padding
+  - callback: callback invoked when enter typed, with the selected selection as parameter
+  - removeOnEnter: remove this line after enter
 
-返回：
+Return：
 
-- element：元素
-- promise：选择 Promise
+- `element`: the line element
+- `promise`: the promise of the action
 
-#### 添加表格
+#### `addTable(data: (string|number)[][], config: {color: string, padding: number}): {element: Table, promise: Promise<void>}`
 
-```ts
-addTable(data: (string|number)[][], config): {element: Table, promise: Promise<void>}
-```
+Add a table line.
 
-参数：
+Parameters：
 
-- data：数据
-- config：配置
-  - color：字符串。颜色
-  - padding：单元格右边距
+- data：data
+- config：config
+  - color：color
+  - padding：left padding
 
-返回：
+Return：
 
-- element：元素
+- `element`: the line element
+- `promise`: the promise of the action
 
 ### Element
 
-所有添加方法返回 Element 的子类（Line，Blank 等）。
-
-#### 属性
+All 'add' methods returns a `Element` subclass instance.
 
 - dom：DOM
-- active：激活状态
+- active：state
 
-#### 挂载元素
+#### `mount(): void`
 
-```ts
-mount(): void
-```
+Mount the element.
 
-#### 删除元素
+#### `remove(): void`
 
-```ts
-remove(): void
-```
+Remove the element.
